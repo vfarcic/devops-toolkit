@@ -1,0 +1,44 @@
+baseURL = "http://devops20toolkit.org/"
+languageCode = "en-us"
+title = "The DevOps Toolkit Series"
+theme = "dimension"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+disableKinds=["RSS"]
+
+[params]
+  description = '<!--[-->Books dedicated to DevOps practices and tools<!--]--><br />
+                <!--[-->by Viktor Farcic<!--]-->'
+  #logo = "fa-diamond"
+  logoimage = "images/viktor.png"
+  copyright = "Viktor Farcic 2017"
+
+# TODO
+[[params.social]]
+  medium = "twitter"
+  icon = "twitter"
+  link = "#"
+
+# TODO
+[[params.social]]
+  medium = "facebook"
+  icon = "facebook"
+  link = "#"
+
+# TODO
+[[params.social]]
+  medium = "instagram"
+  icon = "instagram"
+  link = "#"
+
+# TODO
+[[params.social]]
+  medium = "github"
+  icon = "github"
+  link = "#"
+
+[languages]
+[languages.en]
+languageName = "English"
+weight = 1
+
