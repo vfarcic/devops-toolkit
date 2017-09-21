@@ -43,7 +43,7 @@ googleAnalytics = ""
 	[params.hero]
 		# To change the background of the hero section, replace the 'header.jpg' at './static/img' with your own.
 		slogan     = "The DevOps Toolkit Series"
-		subtitle   = "The books dedicated to DevOps practices and tools"
+		subtitle   = "Books dedicated to DevOps practices and tools"
 		buttonText = "Find out more"
 
 

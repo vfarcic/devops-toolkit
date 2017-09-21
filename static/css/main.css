@@ -455,8 +455,8 @@ input[type="radio"] + label:before {
     -webkit-pointer-events: none;
     -ms-pointer-events: none;
     pointer-events: none;
-    background-image: url("/images/overlay.png");
-    background-color: rgba(19, 21, 25, 0.5);
+    /*background-image: url("/images/overlay.png");*/
+    /*background-color: rgba(19, 21, 25, 0.5);*/
     border-radius: 4px;
     content: '';
     display: block;
