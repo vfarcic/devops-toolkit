@@ -1,16 +1,18 @@
-baseURL = "http://devops20toolkit.org/"
+#baseURL = "/devops-toolkit"
 languageCode = "en-us"
 title = "The DevOps Toolkit Series"
 theme = "dimension"
 defaultContentLanguage = "en"
 enableRobotsTXT = true
 disableKinds=["RSS"]
+canonifyURLs=true
 
 [params]
   description = '<!--[-->Books dedicated to DevOps practices and tools<!--]--><br />
                 <!--[-->by Viktor Farcic<!--]-->'
   #logo = "fa-diamond"
   logoimage = "images/viktor.png"
+  #logoimage = "/devops-toolkit/images/viktor.png"
   copyright = "Viktor Farcic 2017"
 
 # TODO
