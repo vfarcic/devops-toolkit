@@ -6,11 +6,11 @@ draft: false
 
 ## Kubernetes
 
-### Deploying and monitoring containers at scale
+### Deploying and managing highly-available and fault-tolerant applications at scale
 
-The book is still under development. If you buy it now from **[LeanPub](https://leanpub.com/the-devops-2-"-toolkit)**, you'll receive updates for each new chapter that is added.
+Buy it now from **[Amazon](https://amzn.to/2GvzDjy)**, **[LeanPub](https://leanpub.com/the-devops-2-3-toolkit)**, or look for it through your favorite book seller.
 
-{{< figure class="image main" src="/images/devops23-small.jpg" >}}
+![](/img/devops23-smaller.jpg#floatright")
 
 The goal of this book is not to convince you to adopt Kubernetes but to provide a detailed overview of its features. I want you to become confident in your Kubernetes knowledge and only then choose whether to embrace it. That is, unless you already made up your mind and stumbled upon this book in search of Kubernetes guidance.
 
@@ -22,4 +22,4 @@ The book assumes that you feel comfortable with containers, especially Docker. W
 
 This book is about running containers at scale and not panicking when problems arise. It is about the present and the future of software deployment and monitoring. It's about embracing the challenges and staying ahead of the curve.
 
-The book is still under development. If you buy it now from **[LeanPub](https://leanpub.com/the-devops-2-"-toolkit)**, you'll receive updates for each new chapter that is added.
+Buy it now from **[Amazon](https://amzn.to/2GvzDjy)**, **[LeanPub](https://leanpub.com/the-devops-2-3-toolkit)**, or look for it through your favorite book seller.

@@ -1,5 +1,5 @@
 ///
-/// Dimension by HTML5 UP
+/// Forty by HTML5 UP
 /// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
@@ -7,34 +7,17 @@
 /* Image */
 
 	.image {
-		border-radius: _size(border-radius);
 		border: 0;
 		display: inline-block;
 		position: relative;
 
-		&:before {
-			@include vendor('pointer-events', 'none');
-			background-image: url('/images/overlay.png');
-			background-color: _palette(bg-overlay);
-			border-radius: _size(border-radius);
-			content: '';
-			display: block;
-			height: 100%;
-			left: 0;
-			opacity: 0.5;
-			position: absolute;
-			top: 0;
-			width: 100%;
-		}
-
 		img {
-			border-radius: _size(border-radius);
 			display: block;
 		}
 
 		&.left,
 		&.right {
-			max-width: 40%;
+			max-width: 30%;
 
 			img {
 				width: 100%;
@@ -43,13 +26,13 @@
 
 		&.left {
 			float: left;
-			padding: 0 1.5em 1em 0;
+			margin: 0 1.5em 1.25em 0;
 			top: 0.25em;
 		}
 
 		&.right {
 			float: right;
-			padding: 0 0 1em 1.5em;
+			margin: 0 0 1.25em 1.5em;
 			top: 0.25em;
 		}
 
@@ -71,16 +54,8 @@
 			img {
 				width: 100%;
 			}
-		}
 
-		@include breakpoint(small) {
-			&.main {
-				margin: (_size(element-margin) * 1) 0;
-			}
-		}
-
-		@include breakpoint(xsmall) {
-			&.main {
+			@include breakpoint(small) {
 				margin: (_size(element-margin) * 0.75) 0;
 			}
 		}

@@ -1,0 +1,22 @@
+{{- $serviceName := include "helm.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "helm.fullname" . }}
+  labels:
+    app: {{ template "helm.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.global-static-ip-name: devops-toolkit-ip
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: {{ $serviceName }}
+          servicePort: 80
+    host: {{ .Values.ingress.host }}

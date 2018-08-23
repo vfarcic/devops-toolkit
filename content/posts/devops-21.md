@@ -8,7 +8,7 @@ draft: false
 
 Buy it now from **[Amazon](http://amzn.to/2xSJ9bK)**, **[LeanPub](https://leanpub.com/the-devops-2-1-toolkit)**, or look for it through your favorite book seller.
 
-{{< figure class="image main" src="/images/devops21-small.png" >}}
+![](/img/devops21-smaller.png#floatright")
 
 The book envelops all aspects of building, testing, deploying, and monitoring services inside Docker Swarm clusters. We'll go through all the tools required for running a cluster. We'll go through the whole process with clusters running locally on a laptop. Once we are confident with the outcome, we'll translate the experience to different hosting providers like AWS, Azure, DigitalOcean, and so on.
 

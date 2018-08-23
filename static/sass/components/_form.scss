@@ -1,5 +1,5 @@
 ///
-/// Dimension by HTML5 UP
+/// Forty by HTML5 UP
 /// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
@@ -7,43 +7,41 @@
 /* Form */
 
 	form {
-		$gutter: _size(element-margin) * 0.75;
-
-		margin: 0 0 (_size(element-margin) * 1.25) 0;
+		margin: 0 0 _size(element-margin) 0;
 
 		.field {
-			margin: 0 0 ($gutter * 1) 0;
+			margin: 0 0 (_size(element-margin) * 1) 0;
 
 			&.half {
 				width: 50%;
 				float: left;
-				padding: 0 0 0 ($gutter * 1 * 0.5);
+				padding: 0 0 0 (_size(element-margin) * 1 * 0.5);
 
 				&.first {
-					padding: 0 ($gutter * 1 * 0.5) 0 0;
+					padding: 0 (_size(element-margin) * 1 * 0.5) 0 0;
 				}
 			}
 		}
 
 		> .actions {
-			margin: ($gutter * 1.25) 0 0 0 !important;
+			margin: (_size(element-margin) * 1.25) 0 0 0 !important;
 		}
 
 		@include breakpoint(small) {
 			.field {
-				margin: 0 0 ($gutter * 0.75) 0;
+				margin: 0 0 (_size(element-margin) * 0.75) 0;
 
 				&.half {
-					padding: 0 0 0 ($gutter * 0.75 * 0.5);
+					padding: 0 0 0 (_size(element-margin) * 0.75 * 0.5);
 
 					&.first {
-						padding: 0 ($gutter * 0.75 * 0.5) 0 0;
+						padding: 0 (_size(element-margin) * 0.75 * 0.5) 0 0;
 					}
 				}
 			}
 
 			> .actions {
-				margin: ($gutter * 1) 0 0 0 !important;
+				margin: (_size(element-margin) * 1) 0 0 0 !important;
 			}
 		}
 
@@ -65,10 +63,9 @@
 	label {
 		color: _palette(fg-bold);
 		display: block;
-		font-size: 0.8rem;
-		font-weight: _font(weight);
-		letter-spacing: _font(letter-spacing);
-		line-height: 1.5;
+		font-size: 0.8em;
+		font-weight: _font(weight-bold);
+		letter-spacing: _font(letter-spacing-alt);
 		margin: 0 0 (_size(element-margin) * 0.5) 0;
 		text-transform: uppercase;
 	}
@@ -77,21 +74,18 @@
 	input[type="password"],
 	input[type="email"],
 	input[type="tel"],
+	input[type="search"],
+	input[type="url"],
 	select,
 	textarea {
 		@include vendor('appearance', 'none');
-		@include vendor('transition', (
-			'border-color #{_duration(transition)} ease-in-out',
-			'box-shadow #{_duration(transition)} ease-in-out',
-			'background-color #{_duration(transition)} ease-in-out'
-		));
-		background: transparent;
-		border-radius: _size(border-radius);
-		border: solid _size(border-width) _palette(border);
+		background: _palette(border-bg);
+		border: none;
+		border-radius: 0;
 		color: inherit;
 		display: block;
 		outline: 0;
-		padding: 0 1rem;
+		padding: 0 1em;
 		text-decoration: none;
 		width: 100%;
 
@@ -100,16 +94,8 @@
 		}
 
 		&:focus {
-			background: _palette(border-bg);
-			border-color: _palette(fg-bold);
-			box-shadow: 0 0 0 _size(border-width) _palette(fg-bold);
-		}
-	}
-
-	select {
-		option {
-			background: _palette(bg);
-			color: _palette(fg);
+			border-color: _palette(highlight);
+			box-shadow: 0 0 0 2px _palette(highlight);
 		}
 	}
 
@@ -120,11 +106,10 @@
 
 		&:before {
 			color: _palette(border);
-			content: '\f107';
+			content: '\f078';
 			display: block;
 			height: _size(element-height);
-			//line-height: _size(element-height);
-			line-height: calc(#{_size(element-height)} + 0em);
+			line-height: _size(element-height);
 			pointer-events: none;
 			position: absolute;
 			right: 0;
@@ -141,12 +126,15 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="tel"],
+	input[type="search"],
+	input[type="url"],
 	select {
 		height: _size(element-height);
 	}
 
 	textarea {
-		padding: 0.75rem 1rem;
+		padding: 0.75em 1em;
 	}
 
 	input[type="checkbox"],
@@ -154,59 +142,48 @@
 		@include vendor('appearance', 'none');
 		display: block;
 		float: left;
-		margin-right: -2rem;
+		margin-right: -2em;
 		opacity: 0;
-		width: 1rem;
+		width: 1em;
 		z-index: -1;
 
 		& + label {
 			@include icon;
-			@include vendor('user-select', 'none');
 			color: _palette(fg);
 			cursor: pointer;
 			display: inline-block;
-			font-size: 0.8rem;
 			font-weight: _font(weight);
-			margin: 0 0 (_size(element-margin) * 0.25) 0;
-			padding-left: (_size(element-height) * 0.6) + 1rem;
-			padding-right: 0.75rem;
+			padding-left: (_size(element-height) * 0.6) + 1em;
+			padding-right: 0.75em;
 			position: relative;
 
 			&:before {
-				@include vendor('transition', (
-					'border-color #{_duration(transition)} ease-in-out',
-					'box-shadow #{_duration(transition)} ease-in-out',
-					'background-color #{_duration(transition)} ease-in-out'
-				));
-				border-radius: _size(border-radius);
-				border: solid _size(border-width) _palette(border);
+				background: _palette(border-bg);
 				content: '';
 				display: inline-block;
 				height: (_size(element-height) * 0.6);
 				left: 0;
-				//line-height: (_size(element-height) * 0.575);
-				line-height: calc(#{_size(element-height) * 0.575} + 0em);
+				letter-spacing: 0;
+				line-height: (_size(element-height) * 0.575);
 				position: absolute;
 				text-align: center;
-				top: -0.125rem;
+				top: 0;
 				width: (_size(element-height) * 0.6);
 			}
 		}
 
 		&:checked + label {
 			&:before {
-				background: _palette(fg-bold) !important;
-				border-color: _palette(fg-bold) !important;
-				color: _palette(bg);
+				background: _palette(fg-bold);
+				border-color: _palette(highlight);
 				content: '\f00c';
+				color: _palette(bg);
 			}
 		}
 
 		&:focus + label {
 			&:before {
-				background: _palette(border-bg);
-				border-color: _palette(fg-bold);
-				box-shadow: 0 0 0 _size(border-width) _palette(fg-bold);
+				box-shadow: 0 0 0 2px _palette(highlight);
 			}
 		}
 	}
@@ -214,7 +191,6 @@
 	input[type="checkbox"] {
 		& + label {
 			&:before {
-				border-radius: _size(border-radius);
 			}
 		}
 	}
