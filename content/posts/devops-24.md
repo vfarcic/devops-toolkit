@@ -9,7 +9,7 @@ image: devops24-smaller.png
 
 ### Continuously deploying applications with Jenkins to a Kubernetes cluster
 
-Buy it now from **[LeanPub](https://leanpub.com/the-devops-2-4-toolkit)**. Distribution to Amazon and other vendors is coming soon.
+Buy it now from **[Amazon](https://amzn.to/2NkIiVi)**, **[LeanPub](https://leanpub.com/the-devops-2-4-toolkit)**, or look for it through your favorite book seller.
 
 ![](/img/devops24-smaller.png#floatright")
 
@@ -31,4 +31,4 @@ Some of you already chose the Kubernetes flavor you'll use. Others might still w
 
 To summarize the guidelines, **it explores continuous delivery and deployment in Kubernetes using Jenkins**. All the examples are tested in **minikube, Docker for Mac (or Windows), AWS with kops, GKE, OpenShift with minishift, and EKS**.
 
-Buy it now from **[LeanPub](https://leanpub.com/the-devops-2-4-toolkit)**. Distribution to Amazon and other vendors is coming soon.
+Buy it now from **[Amazon](https://amzn.to/2NkIiVi)**, **[LeanPub](https://leanpub.com/the-devops-2-4-toolkit)**, or look for it through your favorite book seller.

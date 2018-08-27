@@ -4,8 +4,8 @@ ingress:
   host: www.devopstoolkitseries.com
 resources:
   limits:
-   cpu: 0.5
+   cpu: 0.2
    memory: 40Mi
   requests:
-   cpu: 0.1
+   cpu: 0.05
    memory: 20Mi
