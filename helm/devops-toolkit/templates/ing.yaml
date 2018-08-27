@@ -9,9 +9,8 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ingress.global-static-ip-name: devops-toolkit-ip
+    kubernetes.io/tls-acme: "true"
 spec:
   rules:
   - http:
@@ -20,3 +19,7 @@ spec:
           serviceName: {{ $serviceName }}
           servicePort: 80
     host: {{ .Values.ingress.host }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: le-{{ $serviceName }}
