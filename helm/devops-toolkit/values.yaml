@@ -1,11 +1,11 @@
 image:
-  tag: 2.4.2
+  tag: 2.5
 ingress:
   host: www.devopstoolkitseries.com
 resources:
   limits:
    cpu: 15m
-   memory: 20Mi
+   memory: 10Mi
   requests:
    cpu: 5m
-   memory: 10Mi
+   memory: 5Mi

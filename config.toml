@@ -118,7 +118,7 @@ disqusShortname = ""
       url = "posts/devops-21"
 
     [[params.tiles.showcase]]
-      title = "The DevOps 2.2 Toolkit"
+      title = "The DevOps 2.0 Toolkit"
       subtitle = "Automating the Continuous Deployment Pipeline with Containerized Microservices"
       image = "devops20-small.png"
       url = "posts/devops-20"

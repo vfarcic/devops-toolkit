@@ -11,11 +11,11 @@ hugo
 
 docker image build -t vfarcic/devops-toolkit-series .
 
-docker image tag vfarcic/devops-toolkit-series vfarcic/devops-toolkit-series:2.4.2
+docker image tag vfarcic/devops-toolkit-series vfarcic/devops-toolkit-series:2.5
 
 docker image push vfarcic/devops-toolkit-series
 
-docker image push vfarcic/devops-toolkit-series:2.4.2
+docker image push vfarcic/devops-toolkit-series:2.5
 
 # Change the `version` in Chart.yaml
 # Change the `image.tag` in values.yaml
