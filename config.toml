@@ -92,7 +92,13 @@ disqusShortname = ""
   [params.tiles]
     enable = true
     # Display your showcases here.
-    
+
+    [[params.tiles.showcase]]
+      title = "The DevOps 2.5 Toolkit"
+      subtitle = "Monitoring, Logging, and Auto-Scaling Kubernetes"
+      image = "devops25-small.jpg"
+      url = "posts/devops-25"
+
     [[params.tiles.showcase]]
       title = "The DevOps 2.4 Toolkit"
       subtitle = "Continuous Deployment To Kubernetes"
@@ -120,7 +126,7 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "The DevOps 2.0 Toolkit"
       subtitle = "Automating the Continuous Deployment Pipeline with Containerized Microservices"
-      image = "devops20-small.png"
+      image = "devops20-small.jpg"
       url = "posts/devops-20"
 
   [params.blog]
