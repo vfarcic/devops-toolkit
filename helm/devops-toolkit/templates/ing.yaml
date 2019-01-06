@@ -1,3 +1,4 @@
+{{- if eq "nginx" .Values.ingress.type }}
 {{- $serviceName := include "helm.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -23,3 +24,4 @@ spec:
   - hosts:
     - {{ .Values.ingress.host }}
     secretName: le-{{ $serviceName }}
+{{- end -}}

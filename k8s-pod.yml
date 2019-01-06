@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devops-toolkit
+spec:
+  containers:
+  - name: devops-toolkit
+    image: vfarcic/devops-toolkit-series

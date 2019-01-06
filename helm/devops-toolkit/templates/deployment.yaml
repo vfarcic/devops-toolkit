@@ -4,6 +4,7 @@ metadata:
   name: {{ template "helm.fullname" . }}
   labels:
     app: {{ template "helm.name" . }}
+    version: {{ .Chart.Version }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -11,12 +12,12 @@ spec:
   selector:
     matchLabels:
       app: {{ template "helm.name" . }}
-      release: {{ .Release.Name }}
+      version: {{ .Chart.Version }}
   template:
     metadata:
       labels:
         app: {{ template "helm.name" . }}
-        release: {{ .Release.Name }}
+        version: {{ .Chart.Version }}
     spec:
       containers:
       - name: ui

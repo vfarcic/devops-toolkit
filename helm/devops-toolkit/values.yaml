@@ -1,7 +1,11 @@
 image:
   tag: 2.5.2
 ingress:
+  # Choices: none, nginx, gateway
+  type: nginx
   host: www.devopstoolkitseries.com
+istio:
+  enabled: false
 resources:
   limits:
    cpu: 15m
