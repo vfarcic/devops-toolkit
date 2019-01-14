@@ -12,12 +12,10 @@ spec:
   selector:
     matchLabels:
       app: {{ template "helm.name" . }}
-      version: {{ .Chart.Version }}
   template:
     metadata:
       labels:
         app: {{ template "helm.name" . }}
-        version: {{ .Chart.Version }}
     spec:
       containers:
       - name: ui
