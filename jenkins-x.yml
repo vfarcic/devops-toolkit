@@ -14,6 +14,11 @@ pipelineConfig:
             value: '0.26'
           steps:
           - image: gcr.io/jenkinsxio/builder-go:0.1.320
+            command: git
+            args:
+              - clone
+              - https://github.com/vfarcic/devops-toolkit.git
+          - image: gcr.io/jenkinsxio/builder-go:0.1.320
             command: hugo
             args:
             - version
