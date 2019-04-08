@@ -6,6 +6,13 @@ image:
   repository: draft
   tag: dev
   pullPolicy: IfNotPresent
+
+# define environment variables here as a map of key: value
+env:
+
+# enable this flag to use knative serve to deploy the app
+knativeDeploy: false
+
 service:
   name: devops-toolkit
   type: ClusterIP
