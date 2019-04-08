@@ -1,0 +1,45 @@
+buildPack: none
+pipelineConfig:
+  pipelines:
+    release:
+      pipeline:
+        agent:
+          image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
+        stages:
+        - name: release
+          environment:
+          - name: HUGO_ENV
+            value: production
+          - name: HUGO_VERSION
+            value: '0.26'
+          steps:
+          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+            command: hugo
+            args:
+            - version
+#          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+#            command: hugo
+#            args:
+#              - -d
+#              - jenkins-x-website
+#              - --enableGitInfo
+#          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+#            command: ./update-website.sh
+
+    pullRequest:
+      pipeline:
+        agent:
+          image: gcr.io/kaniko-project
+        stages:
+        - name: build-tmp-website
+          steps:
+          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+            command: hugo
+            args:
+              - version
+#          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+#            command: hugo
+#            args:
+#              - -d
+#              - tmp-website
+#              - --enableGitInfo
