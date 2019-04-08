@@ -8,28 +8,40 @@ pipelineConfig:
         stages:
         - name: release
           environment:
+          - name: GIT_COMMITTER_EMAIL
+            value: jenkins-x@googlegroups.com
+          - name: GIT_COMMITTER_NAME
+            value: jenkins-x-bot
+          - name: GIT_AUTHOR_EMAIL
+            value: jenkins-x@googlegroups.com
+          - name: GIT_AUTHOR_NAME
+            value: jenkins-x-bot
           - name: HUGO_ENV
             value: production
           - name: HUGO_VERSION
             value: '0.26'
           steps:
+          
           - image: gcr.io/jenkinsxio/builder-go:0.1.320
             command: git
             args:
               - clone
-              - https://github.com/vfarcic/devops-toolkit.git
+              - https://github.com/jenkins-x/jenkins-x-website.git
+
           - image: gcr.io/jenkinsxio/builder-go:0.1.320
             command: hugo
             args:
-            - version
-#          - image: gcr.io/jenkinsxio/builder-go:0.1.320
-#            command: hugo
-#            args:
-#              - -d
-#              - jenkins-x-website
-#              - --enableGitInfo
-#          - image: gcr.io/jenkinsxio/builder-go:0.1.320
-#            command: ./update-website.sh
+              - version
+
+          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+            command: hugo
+            args:
+              - -d
+              - jenkins-x-website
+              - --enableGitInfo
+
+          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+            command: ./update-website.sh
 
     pullRequest:
       pipeline:
@@ -38,13 +50,15 @@ pipelineConfig:
         stages:
         - name: build-tmp-website
           steps:
+ 
           - image: gcr.io/jenkinsxio/builder-go:0.1.320
             command: hugo
             args:
               - version
-#          - image: gcr.io/jenkinsxio/builder-go:0.1.320
-#            command: hugo
-#            args:
-#              - -d
-#              - tmp-website
-#              - --enableGitInfo
+
+          - image: gcr.io/jenkinsxio/builder-go:0.1.320
+            command: hugo
+            args:
+              - -d
+              - tmp-website
+              - --enableGitInfo
