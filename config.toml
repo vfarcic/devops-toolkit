@@ -94,6 +94,12 @@ disqusShortname = ""
     # Display your showcases here.
 
     [[params.tiles.showcase]]
+      title = "The DevOps 2.6 Toolkit"
+      subtitle = "Jenkins X"
+      image = "devops26-small.jpg"
+      url = "posts/devops-26"
+
+    [[params.tiles.showcase]]
       title = "The DevOps 2.5 Toolkit"
       subtitle = "Monitoring, Logging, and Auto-Scaling Kubernetes"
       image = "devops25-small.jpg"

@@ -1,0 +1,26 @@
+---
+# Source: devops-toolkit/templates/ing.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: devops-toolkit
+  labels:
+    app: devops-toolkit
+    chart: devops-toolkit-2.6.0
+    release: devops-toolkit
+    heritage: Tiller
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: devops-toolkit-ip
+    kubernetes.io/tls-acme: "true"
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: devops-toolkit
+          servicePort: 80
+    host: www.devopstoolkitseries.com
+  tls:
+  - hosts:
+    - www.devopstoolkitseries.com
+    secretName: le-devops-toolkit

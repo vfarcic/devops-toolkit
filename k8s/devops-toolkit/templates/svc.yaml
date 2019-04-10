@@ -1,0 +1,19 @@
+---
+# Source: devops-toolkit/templates/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-toolkit
+  labels:
+    app: devops-toolkit
+    version: 2.6.0
+    chart: devops-toolkit-2.6.0
+    release: devops-toolkit
+    heritage: Tiller
+spec:
+  ports:
+  - name: http
+    port: 80
+  type: NodePort
+  selector:
+    app: devops-toolkit

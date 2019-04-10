@@ -2,7 +2,6 @@
 title: "The DevOps 2.5 Toolkit"
 date: 2018-11-09T01:24:49+02:00
 draft: false
-image: devops24-smaller.png
 ---
 
 ## Monitoring, Logging, and Auto-Scaling Kubernetes
