@@ -16,6 +16,11 @@ jx create step \
     --lifecycle build \
     --mode replace \
     --sh 'hugo'
+
+jx create pullrequest \
+  --title "jx" \
+  --body "What can I say?" \
+  --batch-mode
 ```
 
 ```bash
