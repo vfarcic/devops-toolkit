@@ -15,12 +15,15 @@ jx create step \
     --pipeline pullrequest \
     --lifecycle build \
     --mode replace \
-    --sh 'hugo'
+    --sh 'hugo
+export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
 
 jx create pullrequest \
   --title "jx" \
   --body "What can I say?" \
   --batch-mode
+
+git add . && git commit -m "jx" && git push
 ```
 
 ```bash

@@ -5,6 +5,6 @@ pipelineConfig:
       build:
         replace: true
         steps:
-        - command: echo 1111
-        - command: hugo
-        - command: echo 2222
+        - command: |-
+            hugo
+            export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
