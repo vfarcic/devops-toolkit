@@ -1,7 +1,21 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
 ```bash
+rm -f OWNERS* skaffold.yaml Makefile jenkins-x.yml watch.sh
+
+rm -rf charts
+
 jx import --pack go --batch-mode
+
+jx get build logs
+
+git checkout -b jx
+
+jx create step \
+    --pipeline pullrequest \
+    --lifecycle build \
+    --mode replace \
+    --sh 'hugo'
 ```
 
 ```bash

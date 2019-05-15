@@ -1,1 +1,8 @@
 buildPack: go
+pipelineConfig:
+  pipelines:
+    pullRequest:
+      build:
+        replace: true
+        steps:
+        - command: hugo
