@@ -1,1 +1,1 @@
-# Javascript application
+# golang application

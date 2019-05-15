@@ -2,7 +2,7 @@ CHART_REPO := http://jenkins-x-chartmuseum:8080
 CURRENT=$(pwd)
 NAME := devops-toolkit
 OS := $(shell uname)
-RELEASE_VERSION := $(shell cat ../../VERSION)
+VERSION := $(shell cat ../../VERSION)
 
 build: clean
 	rm -rf requirements.lock
@@ -32,17 +32,17 @@ release: clean
 
 tag:
 ifeq ($(OS),Darwin)
-	sed -i "" -e "s/version:.*/version: $(RELEASE_VERSION)/" Chart.yaml
-	sed -i "" -e "s/tag:.*/tag: $(RELEASE_VERSION)/" values.yaml
+	sed -i "" -e "s/version:.*/version: $(VERSION)/" Chart.yaml
+	sed -i "" -e "s/tag:.*/tag: $(VERSION)/" values.yaml
 else ifeq ($(OS),Linux)
-	sed -i -e "s/version:.*/version: $(RELEASE_VERSION)/" Chart.yaml
-	sed -i -e "s|repository:.*|repository: $(DOCKER_REGISTRY)\/vfarcic\/devops-toolkit|" values.yaml
-	sed -i -e "s/tag:.*/tag: $(RELEASE_VERSION)/" values.yaml
+	sed -i -e "s/version:.*/version: $(VERSION)/" Chart.yaml
+	sed -i -e "s|repository:.*|repository: $(DOCKER_REGISTRY)\/vfarcic\/$(NAME)|" values.yaml
+	sed -i -e "s/tag:.*/tag: $(VERSION)/" values.yaml
 else
-	echo "platfrom $(OS) not supported to release from"
+	echo "platfrom $(OS) not supported to tag with"
 	exit -1
 endif
 	git add --all
-	git commit -m "release $(RELEASE_VERSION)" --allow-empty # if first release then no verion update is performed
-	git tag -fa v$(RELEASE_VERSION) -m "Release version $(RELEASE_VERSION)"
-	git push origin v$(RELEASE_VERSION)
+	git commit -m "release $(VERSION)" --allow-empty # if first release then no verion update is performed
+	git tag -fa v$(VERSION) -m "Release version $(VERSION)"
+	git push origin v$(VERSION)

@@ -1,7 +1,7 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
 ```bash
-jx import --batch-mode
+jx import --pack go --batch-mode
 ```
 
 ```bash
