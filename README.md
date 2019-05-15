@@ -1,6 +1,10 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
 ```bash
+jx import --batch-mode
+```
+
+```bash
 git submodule init
 
 git submodule update
