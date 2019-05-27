@@ -1,7 +1,6 @@
 image:
   tag: 2.6.0
 ingress:
-  # Choices: none, nginx, gateway
   type: nginx
   host: www.devopstoolkitseries.com
 istio:

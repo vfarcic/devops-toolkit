@@ -11,12 +11,7 @@ jx get build logs
 
 git checkout -b jx
 
-jx create step \
-    --pipeline pullrequest \
-    --lifecycle build \
-    --mode replace \
-    --sh 'hugo
-export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
+# TODO: Change Makefile target `linux` to `hugo`
 
 jx create pullrequest \
   --title "jx" \
@@ -24,6 +19,10 @@ jx create pullrequest \
   --batch-mode
 
 git add . && git commit -m "jx" && git push
+
+jx get build logs
+
+# TODO: Go image works with hugo?
 ```
 
 ```bash
@@ -46,6 +45,8 @@ docker image push vfarcic/devops-toolkit-series:2.6.0
 # Change the `version` in Chart.yaml
 # Change the `image.tag` in values.yaml
 
+kubectl create ns devops-toolkit
+
 helm template helm/devops-toolkit \
     --name devops-toolkit \
     --output-dir k8s \
@@ -55,5 +56,5 @@ kubectl apply \
     -n devops-toolkit \
     -f k8s/devops-toolkit/templates
 
-# docker-externalloa-naf4uifjpq43-2055444094.us-east-1.elb.amazonaws.com
+kubectl -n devops-toolkit get certificate
 ```
