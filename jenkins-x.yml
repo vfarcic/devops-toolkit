@@ -13,3 +13,4 @@ pipelineConfig:
             container: vfarcic/jx-hugo-builder
         - name: 2-compile
           command: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
+
