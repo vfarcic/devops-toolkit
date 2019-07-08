@@ -10,7 +10,7 @@ pipelineConfig:
         - name: 1-hugo1
           command: pwd
         - name: 1-hugo2
-          command: ls -l public
+          command: ls -l /workspace/source/public
         - name: 1-hugo3
           command: cat /workspace/source/public/index.html
         - name: 2-compile
