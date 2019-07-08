@@ -9,5 +9,7 @@ pipelineConfig:
           command: hugo
         - name: 1-hugo2
           command: ls -l public
+        - name: 1-hugo3
+          command: cat index.xml
         - name: 2-compile
           command: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
