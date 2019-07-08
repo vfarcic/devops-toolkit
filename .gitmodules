@@ -1,9 +1,3 @@
-[submodule "themes/dimension"]
-	path = themes/dimension
-	url = https://github.com/sethmacleod/dimension.git
-[submodule "themes/hugo-nederburg-theme"]
-	path = themes/hugo-nederburg-theme
-	url = https://github.com/appernetic/hugo-nederburg-theme.git
 [submodule "themes/forty"]
 	path = themes/forty
 	url = https://github.com/MarcusVirg/forty.git
