@@ -6,7 +6,7 @@ pipelineConfig:
         replace: true
         steps:
         - name: 1-hugo
-          command: hugo && /workspace/source/public
+          command: hugo && ls -l /workspace/source/public && cat /workspace/source/public/index.html
         - name: 1-hugo1
           command: pwd
         - name: 1-hugo2
