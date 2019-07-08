@@ -5,8 +5,10 @@ pipelineConfig:
       build:
         replace: true
         steps:
-        - name: 1-hugo
-          command: mkdir themes && cd themes && git clone https://github.com/MarcusVirg/forty.git && hugo && hugo version && ls -l /workspace/source/public && cat /workspace/source/public/index.html
+        - name: themes
+          command: cd themes && git clone https://github.com/MarcusVirg/forty.git
+        - name: themes
+          command: hugo && hugo version && ls -l /workspace/source/public && cat /workspace/source/public/index.html
           agent:
             container: vfarcic/jx-hugo-builder
         - name: 2-compile
