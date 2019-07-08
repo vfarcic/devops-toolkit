@@ -7,6 +7,8 @@ pipelineConfig:
         steps:
         - name: 1-hugo
           command: hugo
+        - name: 1-hugo1
+          command: pwd
         - name: 1-hugo2
           command: ls -l public
         - name: 1-hugo3
