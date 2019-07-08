@@ -1,5 +1,8 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
+TODO: Create a `hugo` agent image
+TODO: Create a `hugo` build pack
+
 ```bash
 rm -f OWNERS* skaffold.yaml Makefile jenkins-x.yml watch.sh
 

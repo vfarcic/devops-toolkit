@@ -7,6 +7,8 @@ pipelineConfig:
         steps:
         - name: 1-hugo
           command: hugo && hugo version && ls -l /workspace/source/public && cat /workspace/source/public/index.html
+          agent:
+            container: vfarcic/jx-hugo-builder
         - name: 1-hugo1
           command: pwd
         - name: 1-hugo2
