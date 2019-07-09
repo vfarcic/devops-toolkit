@@ -10,6 +10,6 @@ pipelineConfig:
         - name: hugo
           command: pwd && hugo version && hugo && ls -l /workspace/source/public && cat /workspace/source/public/index.html
           agent:
-            container: vfarcic/jx-hugo-builder
+            image: vfarcic/jx-hugo-builder
         - name: 2-compile
           command: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
