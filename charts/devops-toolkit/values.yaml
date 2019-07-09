@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: draft
-  tag: dev
+  repository: gcr.io/viktor-2019/devops-toolkit
+  tag: 0.0.24
   pullPolicy: IfNotPresent
 
 # define environment variables here as a map of key: value
