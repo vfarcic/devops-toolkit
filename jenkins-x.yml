@@ -1,7 +1,7 @@
 buildPack: go
 pipelineConfig:
   pipelines:
-    release:
+    pullRequest:
       build:
         replace: true
         steps:
