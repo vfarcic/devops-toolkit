@@ -1,11 +1,11 @@
 buildPack: go
 pipelineConfig:
+  agent:
+    image: vfarcic/jx-hugo-builder
   pipelines:
     release:
       build:
         replace: true
-        agent:
-          image: vfarcic/jx-hugo-builder
         steps:
         - name: 1-themes
           command: cd themes && git clone https://github.com/MarcusVirg/forty.git
