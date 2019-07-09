@@ -23,5 +23,5 @@ pipelineConfig:
           command: cd themes && git clone https://github.com/MarcusVirg/forty.git
         - name: 2-hugo
           command: pwd && hugo version && hugo && ls -l /workspace/source/public && cat /workspace/source/public/index.html
-        - name: 3456-compile
+        - name: 3-compile
           command: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
