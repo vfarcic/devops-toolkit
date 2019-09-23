@@ -1,5 +1,5 @@
 image:
-  tag: 2.6.0
+  tag: 2.6.1
 ingress:
   # Choices: none, nginx, gateway
   type: nginx

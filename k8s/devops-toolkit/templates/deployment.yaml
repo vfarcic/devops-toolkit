@@ -6,8 +6,8 @@ metadata:
   name: devops-toolkit
   labels:
     app: devops-toolkit
-    version: 2.6.0
-    chart: devops-toolkit-2.6.0
+    version: 2.6.1
+    chart: devops-toolkit-2.6.1
     release: devops-toolkit
     heritage: Tiller
 spec:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: ui
-        image: "vfarcic/devops-toolkit-series:2.6.0"
+        image: "vfarcic/devops-toolkit-series:2.6.1"
         readinessProbe:
           httpGet:
             path: /

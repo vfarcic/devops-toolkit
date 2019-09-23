@@ -8,7 +8,7 @@ draft: false
 
 ### Cloud-Native Kubernetes-First Continuous Delivery
 
-The book is currently under development and can be purchased only from **[LeanPub](https://leanpub.com/the-devops-2-6-toolkit)**. It will arrive at other retailers once it's finished.
+Buy it now from **[Amazon](https://amzn.to/2m9h8YU)**, **[LeanPub](https://leanpub.com/the-devops-2-6-toolkit)**, or look for it through your favorite book seller.
 
 ![](/img/devops26-smaller.jpg#floatright")
 
@@ -22,4 +22,4 @@ The real power behind Jenkins X is the process, the selection of tools, and the 
 
 If we are about to start working on a new project, Jenkins X will create the structure and the required files. If we need a Kubernetes cluster with all the tools selected, installed, and configured, Jenkins X will do that. If we need to create Git repositories, set webhooks, and create continuous delivery pipelines, all we need to do is execute a single `jx` command. The list of what Jenkins X does is vast, and it grows every day.
 
-The book is currently under development and can be purchased only from **[LeanPub](https://leanpub.com/the-devops-2-6-toolkit)**. It will arrive at other retailers once it's finished.
+Buy it now from **[Amazon](https://amzn.to/2m9h8YU)**, **[LeanPub](https://leanpub.com/the-devops-2-6-toolkit)**, or look for it through your favorite book seller.
