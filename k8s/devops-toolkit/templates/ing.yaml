@@ -6,12 +6,12 @@ metadata:
   name: devops-toolkit
   labels:
     app: devops-toolkit
-    chart: devops-toolkit-2.6.1
+    chart: devops-toolkit-2.6.2
     release: devops-toolkit
     heritage: Tiller
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: devops-toolkit-ip
-    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"    
+    certmanager.k8s.io/issuer: "letsencrypt-prod"
 spec:
   rules:
   - http:
