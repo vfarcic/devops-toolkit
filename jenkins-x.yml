@@ -1,1 +1,7 @@
 buildPack: go
+pipelineConfig:
+  pipelines:
+    overrides:
+    - pipeline: release
+      stage: promote
+      name: changelog
