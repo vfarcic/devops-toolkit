@@ -16,6 +16,9 @@ all: build
 check: fmt build test
 
 build:
+	git submodule init && git submodule update && hugo
+
+build-old:
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
 
 test: 
