@@ -2,23 +2,21 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: changeme
+  - image: viktor-2019/devops-toolkit
     context: .
     docker: {}
   tagPolicy:
     envTemplate:
-      template: '{{.DOCKER_REGISTRY}}/vfarcic/devops-toolkit:{{.VERSION}}'
+      template: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}:{{.VERSION}}'
   local: {}
 deploy:
   kubectl: {}
 profiles:
 - name: dev
   build:
-    artifacts:
-    - docker: {}
     tagPolicy:
       envTemplate:
-        template: '{{.DOCKER_REGISTRY}}/vfarcic/devops-toolkit:{{.DIGEST_HEX}}'
+        template: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}:{{.DIGEST_HEX}}'
     local: {}
   deploy:
     helm:
@@ -26,5 +24,5 @@ profiles:
       - name: devops-toolkit
         chartPath: charts/devops-toolkit
         setValueTemplates:
-          image.repository: '{{.DOCKER_REGISTRY}}/vfarcic/devops-toolkit'
+          image.repository: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}'
           image.tag: '{{.DIGEST_HEX}}'
