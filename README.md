@@ -3,8 +3,9 @@
 ## TODO
 
 - [X] Create jenkins-x.yml
-- [ ] Create previews
+- [X] Create previews
 - [ ] Change to CDP
+- [ ] Change to Knative
 
 ```bash
 jx import --pack go --batch-mode
