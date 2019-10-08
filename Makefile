@@ -34,7 +34,7 @@ clean:
 	rm -rf build release
 
 linux:
-	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=amd64 $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
+	git submodule init && git submodule update && cp content/img/banner.jpg themes/forty/static/img/. && hugo
 
 .PHONY: release clean
 
