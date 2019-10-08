@@ -1,17 +1,134 @@
-buildPack: go
+buildPack: none
 pipelineConfig:
-  agent:
-    image: vfarcic/jx-hugo-builder
   pipelines:
     release:
-      build:
-        replace: true
-        steps:
-        - name: 1-themes
-          command: cd themes && git clone https://github.com/MarcusVirg/forty.git
-        - name: 2-hugo
-          command: pwd && hugo version && hugo && ls -l /workspace/source/public && cat /workspace/source/public/index.html
-        - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
-          name: container-build
-        - sh: jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)
-          name: post-build
+      pipeline:
+        agent:
+          image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
+        stages:
+        - name: release
+          environment:
+          - name: GIT_COMMITTER_EMAIL
+            value: viktor@farcic.com
+          - name: GIT_COMMITTER_NAME
+            value: vfarcic
+          - name: GIT_AUTHOR_EMAIL
+            value: viktor@farcic.com
+          - name: GIT_AUTHOR_NAME
+            value: vfarcic
+          - name: HUGO_ENV
+            value: production
+          - name: HUGO_VERSION
+            value: '0.57.2/extended'
+          steps:
+
+          - image: dennisnewel/hugo-extended:0.58.3
+            name: git-clone
+            command: git
+            args:
+              - clone
+              - https://github.com/vfarcic/devops-toolkit.git
+
+          - image: dennisnewel/hugo-extended:0.58.3
+            name: git-submodules
+            command: git
+            args:
+            - submodule update --init --recursive
+
+          - image: dennisnewel/hugo-extended:0.58.3
+            command: hugo
+            args:
+              - version
+
+          - image: gcr.io/cloud-builders/npm
+            name: install-dependencies
+            command: npm
+            args: ['install']
+
+          - image: dennisnewel/hugo-extended:0.58.3
+            name: build-website
+            command: hugo
+            args:
+              - -d
+              - jenkins-x-website
+              - --enableGitInfo
+
+          - image: gcr.io/jenkinsxio/builder-go
+            name: update-website
+            command: ./update-website.sh
+
+          # Create the release notes
+          - name: changelog
+            image: gcr.io/jenkinsxio/builder-go:0.1.571
+            command: ./changelog.sh
+
+    pullRequest:
+      pipeline:
+        options:
+          containerOptions:
+            env:
+              - name: DOMAIN
+                valueFrom:
+                  configMapKeyRef:
+                    name: ingress-config
+                    key: domain
+        agent:
+          image: gcr.io/kaniko-project
+        stages:
+        - name: build
+          environment:
+          - name: ORG
+            value: jenkins-x-infra
+          - name: APP_NAME
+            value: jx-docs
+          steps:
+          - image: dennisnewel/hugo-extended:0.58.3
+            name: git-submodules
+            command: git
+            args:
+            - submodule update --init --recursive
+          - image: dennisnewel/hugo-extended:0.58.3
+            name: version
+            command: hugo
+            args:
+            - version
+          - image: gcr.io/cloud-builders/npm
+            name: install-dependencies
+            command: npm
+            args: ['install']
+          - image: dennisnewel/hugo-extended:0.58.3
+            name: build-website
+            command: hugo
+            args:
+            - -d
+            - tmp-website
+            - --enableGitInfo
+            - --baseURL http://${APP_NAME}.jx-${REPO_OWNER}-${REPO_NAME}-pr-${PULL_NUMBER}.${DOMAIN}/
+
+          - image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
+            name: build-and-push-image
+            command: /kaniko/executor
+            args:
+            - --dockerfile=/workspace/source/Dockerfile
+            - --destination=gcr.io/jenkins-x-infra/jx-docs:${inputs.params.version}
+            - --context=/workspace/source
+            - --cache-dir=/workspace
+
+          - image: gcr.io/jenkinsxio/builder-go
+            name: make-preview
+            dir: /workspace/source/charts/preview
+            command: make
+            args:
+            - preview
+
+          - image: gcr.io/jenkinsxio/builder-go
+            command: jx
+            dir: /workspace/source/charts/preview
+            name: jx-preview
+            args:
+            - preview
+            - --app jx-docs
+            - --dir ../../
+            env:
+              - name: DOCKER_REGISTRY
+                value: gcr.io
