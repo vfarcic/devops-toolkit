@@ -12,6 +12,7 @@ env:
 
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
+domain: true
 
 service:
   name: devops-toolkit

@@ -5,3 +5,10 @@ pipelineConfig:
     - pipeline: release
       stage: promote
       name: changelog
+
+    - pipeline: release
+      stage: promote
+      name: jx-promote
+      steps:
+      - name: jx-promote
+        command: jx promote -b -e production --timeout 1h --version \$(cat ../../VERSION)

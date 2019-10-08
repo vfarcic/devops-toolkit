@@ -1,5 +1,11 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
+## TODO
+
+- [X] Create jenkins-x.yml
+- [ ] Create previews
+- [ ] Change to CDP
+
 ```bash
 jx import --pack go --batch-mode
 
