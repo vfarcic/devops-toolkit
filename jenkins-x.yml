@@ -7,6 +7,7 @@ pipelineConfig:
           image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
         stages:
         - name: release
+          # Review
           environment:
           - name: GIT_COMMITTER_EMAIL
             value: viktor@farcic.com
@@ -21,30 +22,30 @@ pipelineConfig:
           - name: HUGO_VERSION
             value: '0.57.2/extended'
           steps:
-
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             name: git-clone
             command: git
             args:
               - clone
               - https://github.com/vfarcic/devops-toolkit.git
-
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             name: git-submodules
             command: git
             args:
             - submodule update --init --recursive
-
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             command: hugo
             args:
               - version
-
+          # Review
           - image: gcr.io/cloud-builders/npm
             name: install-dependencies
             command: npm
             args: ['install']
-
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             name: build-website
             command: hugo
@@ -52,18 +53,18 @@ pipelineConfig:
               - -d
               - jenkins-x-website
               - --enableGitInfo
-
+          # Review
           - image: gcr.io/jenkinsxio/builder-go
             name: update-website
             command: ./update-website.sh
-
-          # Create the release notes
+          # Review
           - name: changelog
             image: gcr.io/jenkinsxio/builder-go:0.1.571
             command: ./changelog.sh
 
     pullRequest:
       pipeline:
+        # Review
         options:
           containerOptions:
             env:
@@ -76,26 +77,31 @@ pipelineConfig:
           image: gcr.io/kaniko-project
         stages:
         - name: build
+          # Review
           environment:
           - name: ORG
             value: jenkins-x-infra
           - name: APP_NAME
             value: jx-docs
           steps:
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             name: git-submodules
             command: git
             args:
             - submodule update --init --recursive
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             name: version
             command: hugo
             args:
             - version
+          # Review
           - image: gcr.io/cloud-builders/npm
             name: install-dependencies
             command: npm
             args: ['install']
+          # Review
           - image: dennisnewel/hugo-extended:0.58.3
             name: build-website
             command: hugo
@@ -104,7 +110,7 @@ pipelineConfig:
             - tmp-website
             - --enableGitInfo
             - --baseURL http://${APP_NAME}.jx-${REPO_OWNER}-${REPO_NAME}-pr-${PULL_NUMBER}.${DOMAIN}/
-
+          # Review
           - image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
             name: build-and-push-image
             command: /kaniko/executor
@@ -113,14 +119,14 @@ pipelineConfig:
             - --destination=gcr.io/jenkins-x-infra/jx-docs:${inputs.params.version}
             - --context=/workspace/source
             - --cache-dir=/workspace
-
+          # Review
           - image: gcr.io/jenkinsxio/builder-go
             name: make-preview
             dir: /workspace/source/charts/preview
             command: make
             args:
             - preview
-
+          # Review
           - image: gcr.io/jenkinsxio/builder-go
             command: jx
             dir: /workspace/source/charts/preview
