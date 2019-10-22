@@ -5,7 +5,6 @@ pipelineConfig:
     - pipeline: release
       stage: promote
       name: changelog
-
     - pipeline: release
       stage: promote
       name: jx-promote

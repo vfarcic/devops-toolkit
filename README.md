@@ -7,11 +7,7 @@
 - [ ] Change to CDP
 - [ ] Change to Knative
 
-```bash
-jx import --pack go --batch-mode
-
-jx get activities --filter devops-toolkit --watch
-```
+## Before Jenkins X
 
 ```bash
 git submodule init
