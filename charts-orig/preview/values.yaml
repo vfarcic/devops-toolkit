@@ -20,3 +20,4 @@ preview:
     repository:
     tag:
     pullPolicy: IfNotPresent
+  domain: false

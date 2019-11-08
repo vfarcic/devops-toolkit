@@ -30,6 +30,7 @@ spec:
               successThreshold: {{ .Values.livenessProbe.successThreshold }}
               timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
             readinessProbe:
+              failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
               httpGet:
                 path: {{ .Values.probePath }}
               periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
