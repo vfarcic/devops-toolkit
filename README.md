@@ -4,7 +4,7 @@
 
 - [X] Create jenkins-x.yml
 - [X] Create previews
-- [ ] Change to CDP
+- [X] Change to CDP
 - [ ] Change to Knative
 
 ## Before Jenkins X
