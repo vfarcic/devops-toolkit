@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: viktor-2019/devops-toolkit
+  - image: devops-paradox/devops-toolkit
     context: .
     docker: {}
   tagPolicy:
