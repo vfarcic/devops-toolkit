@@ -94,6 +94,12 @@ disqusShortname = ""
     # Display your showcases here.
 
     [[params.tiles.showcase]]
+      title = "Canary Deployments"
+      subtitle = "Canary Deployments To Kubernetes Using Istio and Friends"
+      image = "canary-small.jpg"
+      url = "posts/canary"
+
+    [[params.tiles.showcase]]
       title = "The DevOps 2.6 Toolkit"
       subtitle = "Jenkins X"
       image = "devops26-small.jpg"

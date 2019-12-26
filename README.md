@@ -19,13 +19,15 @@ hugo server
 
 hugo
 
+VERSION=2.6.2
+
 docker image build -t vfarcic/devops-toolkit-series .
 
-docker image tag vfarcic/devops-toolkit-series vfarcic/devops-toolkit-series:2.6.2
+docker image tag vfarcic/devops-toolkit-series vfarcic/devops-toolkit-series:$VERSION
 
 docker image push vfarcic/devops-toolkit-series
 
-docker image push vfarcic/devops-toolkit-series:2.6.2
+docker image push vfarcic/devops-toolkit-series:$VERSION
 
 # Change the `version` in Chart.yaml
 # Change the `image.tag` in values.yaml
