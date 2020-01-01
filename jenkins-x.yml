@@ -11,3 +11,4 @@ pipelineConfig:
       steps:
       - name: jx-promote
         command: jx promote -b -e production --timeout 1h --version \$(cat ../../VERSION)
+
