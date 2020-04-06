@@ -94,6 +94,12 @@ disqusShortname = ""
     # Display your showcases here.
 
     [[params.tiles.showcase]]
+      title = "Kubernetes Chaos Engineering"
+      subtitle = "Kubernetes Chaos Engineering With Chaos Toolkit And Istio"
+      image = "chaos-small.jpg"
+      url = "posts/chaos"
+
+    [[params.tiles.showcase]]
       title = "Canary Deployments"
       subtitle = "Canary Deployments To Kubernetes Using Istio and Friends"
       image = "canary-small.jpg"
