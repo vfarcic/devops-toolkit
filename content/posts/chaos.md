@@ -6,7 +6,9 @@ draft: false
 
 ## Kubernetes Chaos Engineering With Chaos Toolkit And Istio
 
-Buy it now from **[Amazon](https://amzn.to/2xUscyO)**, **[LeanPub](https://leanpub.com/the-devops-2-7-toolkit)**, or look for it through your favorite book seller.
+The **video course** is available in **[Udemy](https://www.udemy.com/course/kubernetes-chaos-engineering-with-chaos-toolkit-and-istio/?referralCode=02D178244316CE05E24A)**.
+
+The **book** is available from **[Amazon](https://amzn.to/2xUscyO)**, **[LeanPub](https://leanpub.com/the-devops-2-7-toolkit)**, and (probably) through your favorite book seller.
 
 ![](/img/chaos-smaller.jpg#floatright")
 
@@ -20,4 +22,6 @@ Chaos engineering tries to find the limits of our system. It helps us deduce wha
 
 That's our mission. We will try to find ways how we can improve our systems based on the knowledge that we will obtain through the chaos.
 
-Buy it now from **[Amazon](https://amzn.to/2xUscyO)**, **[LeanPub](https://leanpub.com/the-devops-2-7-toolkit)**, or look for it through your favorite book seller.
+The **video course** is available in **[Udemy](https://www.udemy.com/course/kubernetes-chaos-engineering-with-chaos-toolkit-and-istio/?referralCode=02D178244316CE05E24A)**.
+
+The **book** is available from **[Amazon](https://amzn.to/2xUscyO)**, **[LeanPub](https://leanpub.com/the-devops-2-7-toolkit)**, and (probably) through your favorite book seller.
