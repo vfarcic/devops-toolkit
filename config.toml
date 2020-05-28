@@ -20,7 +20,7 @@ disqusShortname = ""
 
   # Provide your metadata here.
   name = "Viktor Farcic"
-  description = "Books dedicated to DevOps practices and tools"
+  description = "Books and courses dedicated to DevOps practices and tools"
  
 
   # Link custom assets relative to /static
@@ -92,6 +92,12 @@ disqusShortname = ""
   [params.tiles]
     enable = true
     # Display your showcases here.
+
+    [[params.tiles.showcase]]
+      title = "The DevOps Toolkit"
+      subtitle = "Catalog, Patterns, And Blueprints"
+      image = "catalog-small.jpg"
+      url = "posts/catalog"
 
     [[params.tiles.showcase]]
       title = "Kubernetes Chaos Engineering"
