@@ -7,8 +7,4 @@ image: devops24-smaller.png
 
 ## Continuous Deployment To Kubernetes
 
-This book was removedx from sales since I believe that Jenkins X is a much better choice for running CD in Kubernetes while Jenkins (without X)
- continues dominating everything else.
-
-That does not mean that Jenkins is not great, but rather that I am currently focused on Jenkins X and cannot keep both books up-to-date. Those interested in CD in
-Kubernetes might want to consider [The DevOps 2.6 Toolkit: Jenkins X](/posts/devops-26).
+This book was removed from sales and the repository with the manuscript ([vfarcic/devops24](https://github.com/vfarcic/devops24)) has been donated to the community.

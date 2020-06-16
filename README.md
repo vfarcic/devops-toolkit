@@ -19,20 +19,42 @@ hugo server
 
 hugo
 
-VERSION=2.6.2
+export PROJECT_ID=vfarcic
 
-docker image build -t vfarcic/devops-toolkit-series .
+export VERSION=2.9.1
 
-docker image tag vfarcic/devops-toolkit-series vfarcic/devops-toolkit-series:$VERSION
+export IMAGE_DH=vfarcic/devops-toolkit-series
 
-docker image push vfarcic/devops-toolkit-series
+export IMAGE_GCR=gcr.io/$PROJECT_ID/devops-toolkit-series
 
-docker image push vfarcic/devops-toolkit-series:$VERSION
+docker image build -t $IMAGE_DH .
+
+docker image tag $IMAGE_DH $IMAGE_DH:$VERSION
+
+docker image tag $IMAGE_DH $IMAGE_GCR:$VERSION
+
+docker login
+
+docker image push $IMAGE_DH
+
+docker image push $IMAGE_DH:$VERSION
+
+docker image push $IMAGE_GCR:$VERSION
+
+gcloud run deploy \
+    devops-toolkit-series \
+    --image $IMAGE_GCR:$VERSION \
+    --region us-east1 \
+    --allow-unauthenticated \
+    --port 80 \
+    --concurrency 100 \
+    --platform managed \
+    --project $PROJECT_ID
 
 # Change the `version` in Chart.yaml
 # Change the `image.tag` in values.yaml
 
-kubectl apply \
-    -n devops-toolkit \
-    -f k8s/devops-toolkit/templates
+# kubectl apply \
+#     -n devops-toolkit \
+#     -f k8s/devops-toolkit/templates
 ```
