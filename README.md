@@ -1,15 +1,5 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
-## TODO
-
-- [X] Create jenkins-x.yml
-- [X] Create previews
-- [X] Change to CDP
-- [ ] Change to Knative
-
-
-## Before Jenkins X
-
 ```bash
 git submodule init
 
@@ -21,7 +11,7 @@ hugo
 
 export PROJECT_ID=vfarcic
 
-export VERSION=2.9.1
+export VERSION=2.9.2
 
 export IMAGE_DH=vfarcic/devops-toolkit-series
 
@@ -50,11 +40,4 @@ gcloud run deploy \
     --concurrency 100 \
     --platform managed \
     --project $PROJECT_ID
-
-# Change the `version` in Chart.yaml
-# Change the `image.tag` in values.yaml
-
-# kubectl apply \
-#     -n devops-toolkit \
-#     -f k8s/devops-toolkit/templates
 ```

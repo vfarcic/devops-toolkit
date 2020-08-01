@@ -5,7 +5,7 @@ title = "The DevOps Toolkit Series"
 theme = "forty"
 
 # Enter your tracking code to enable Google Analytics
-googleAnalytics = ""
+googleAnalytics = "UA-174219852-1"
 
 # Enter your disqus shortname to enable comments
 disqusShortname = ""
@@ -21,7 +21,6 @@ disqusShortname = ""
   # Provide your metadata here.
   name = "Viktor Farcic"
   description = "Books and courses dedicated to DevOps practices and tools"
- 
 
   # Link custom assets relative to /static
   custom_css = []
@@ -212,7 +211,7 @@ disqusShortname = ""
   # Footer section
   [params.footer]
     enable = true
-    copyright = "Viktor Farcic"
+    copyright = "Viktor Farcic 2020"
 
     # Uses font awesome icons
     [[params.footer.social]]
