@@ -11,7 +11,7 @@ hugo
 
 export PROJECT_ID=vfarcic
 
-export VERSION=2.9.7
+export VERSION=2.9.8
 
 export IMAGE_DH=vfarcic/devops-toolkit-series
 
@@ -19,15 +19,15 @@ export IMAGE_GCR=gcr.io/$PROJECT_ID/devops-toolkit-series
 
 docker image build -t $IMAGE_DH .
 
-# docker image tag $IMAGE_DH $IMAGE_DH:$VERSION
+docker image tag $IMAGE_DH $IMAGE_DH:$VERSION
 
 docker image tag $IMAGE_DH $IMAGE_GCR:$VERSION
 
 docker login
 
-# docker image push $IMAGE_DH
+docker image push $IMAGE_DH
 
-# docker image push $IMAGE_DH:$VERSION
+docker image push $IMAGE_DH:$VERSION
 
 docker image push $IMAGE_GCR:$VERSION
 
