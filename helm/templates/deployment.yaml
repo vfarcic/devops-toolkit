@@ -1,18 +1,20 @@
 {{- if .Values.knativeDeploy }}
 {{- else }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "fullname" . }}
   labels:
-    draft: {{ default "draft-app" .Values.draft }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    app: {{ template "fullname" . }}
 spec:
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
-        draft: {{ default "draft-app" .Values.draft }}
         app: {{ template "fullname" . }}
 {{- if .Values.podAnnotations }}
       annotations:
