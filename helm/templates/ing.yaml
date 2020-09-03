@@ -17,9 +17,9 @@ spec:
       - backend:
           serviceName: {{ .Values.service.name }}
           servicePort: 80
-    host: devopstoolkitseries.com
+    host: {{ .Values.ingress.host }}
   tls:
   - hosts:
-    - devopstoolkitseries.com
+    - {{ .Values.ingress.host }}
     secretName: le-devops-toolkit
 {{- end }}
