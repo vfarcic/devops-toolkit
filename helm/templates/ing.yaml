@@ -1,4 +1,3 @@
-{{- if .Values.domain }}
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -18,8 +17,3 @@ spec:
           serviceName: {{ .Values.service.name }}
           servicePort: 80
     host: {{ .Values.ingress.host }}
-  tls:
-  - hosts:
-    - {{ .Values.ingress.host }}
-    secretName: le-devops-toolkit
-{{- end }}

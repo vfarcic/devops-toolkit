@@ -4,7 +4,6 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 knativeDeploy: false
-domain: true
 ingress:
   host: devopstoolkitseries.com
 service:
