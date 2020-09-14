@@ -1,4 +1,0 @@
-FROM bitnami/nginx
-
-ENV NGINX_HTTP_PORT_NUMBER=80
-COPY public /app
