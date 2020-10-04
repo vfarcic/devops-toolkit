@@ -1,9 +1,8 @@
-{{- if or .Values.knativeDeploy .Values.rollout.deploy }}
-{{- else }}
+{{- if .Values.rollout.deploy }}
 ---
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ template "fullname" . }}
   labels:
@@ -41,4 +40,31 @@ spec:
           timeoutSeconds: 1
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+  strategy:
+    canary:
+      canaryService: {{ template "fullname" . }}-canary
+      stableService: {{ template "fullname" . }}
+      trafficRouting:
+        nginx:
+          stableIngress: {{ template "fullname" . }}
+      steps:
+{{ toYaml .Values.rollout.steps | indent 6 }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fullname" . }}-canary
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: {{ template "fullname" . }}
 {{- end }}

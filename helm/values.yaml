@@ -1,19 +1,9 @@
-replicaCount: 1
 image:
   repository: vfarcic/devops-toolkit-series
   tag: latest
   pullPolicy: IfNotPresent
-knativeDeploy: false
 ingress:
   host: devopstoolkitseries.com
-service:
-  name: devops-toolkit
-  type: ClusterIP
-  externalPort: 80
-  internalPort: 80
-  annotations:
-    fabric8.io/expose: "true"
-    fabric8.io/ingress.annotations: "kubernetes.io/ingress.class: nginx"
 resources:
   limits:
     cpu: 100m
@@ -21,13 +11,20 @@ resources:
   requests:
     cpu: 80m
     memory: 128Mi
-probePath: /
-livenessProbe:
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
 readinessProbe:
   periodSeconds: 10
   successThreshold: 1
   timeoutSeconds: 1
+hpa: false
+knativeDeploy: false
+rollout:
+  deploy: false
+  steps:
+  - setWeight: 20
+  - pause: {duration: 10}
+  - setWeight: 40
+  - pause: {duration: 10}
+  - setWeight: 60
+  - pause: {duration: 10}
+  - setWeight: 80
+  - pause: {duration: 10}

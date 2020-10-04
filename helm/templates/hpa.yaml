@@ -1,0 +1,24 @@
+{{- if .Values.hpa }}
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    app: {{ template "fullname" . }}
+spec:
+  minReplicas: 2
+  maxReplicas: 6
+  scaleTargetRef:
+  {{- if .Values.rollout.deploy }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+  {{- else }}
+    apiVersion: apps/v1
+    kind: Deployment
+  {{- end }}
+    name: {{ template "fullname" . }}
+  targetCPUUtilizationPercentage: 80
+{{- end }}

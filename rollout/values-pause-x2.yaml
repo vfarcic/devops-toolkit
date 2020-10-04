@@ -1,0 +1,12 @@
+hpa: true
+rollout:
+  deploy: true
+  steps:
+  - setWeight: 20
+  - pause: {}
+  - setWeight: 40
+  - pause: {}
+  - setWeight: 60
+  - pause: {duration: 10}
+  - setWeight: 80
+  - pause: {duration: 10}
