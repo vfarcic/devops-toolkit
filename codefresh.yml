@@ -11,9 +11,16 @@ steps:
     stage: prepare
   build:
     image: klakegg/hugo:0.75.1-ext-alpine
-    title: Build
+    title: Build Hugo
     stage: prepare
     commands:
     - git submodule init
     - git submodule update
     - hugo
+  image:
+    title: Building container image
+    type: build
+    image_name: vfarcic/devops-toolkit
+    tags:
+    - test
+# TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
