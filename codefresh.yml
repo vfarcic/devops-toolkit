@@ -1,22 +1,21 @@
 version: "1.0"
 stages:
-  - prepare
-  - apply
+  - release
 steps:
   main_clone:
     title: Cloning repository
     type: git-clone
     repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
     revision: "${{CF_BRANCH}}"
-    stage: prepare
+    stage: release
   build:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
-    stage: prepare
     commands:
     - git submodule init
     - git submodule update
     - hugo
+    stage: release
   image:
     title: Building container image
     type: build
@@ -24,4 +23,5 @@ steps:
     tags:
     - test
     registry: docker-hub
+    stage: release
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
