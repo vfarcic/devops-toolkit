@@ -16,11 +16,12 @@ steps:
     - git submodule update
     - hugo
     stage: release
-  image:
+  build_step:
     title: Building container image
     type: build
-    image_name: devops-toolkit
-    tag: test
+    image_name: vfarcic/devops-toolkit
+    tags:
+    - test
     registry: docker-hub
     stage: release
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
