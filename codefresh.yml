@@ -23,4 +23,5 @@ steps:
     image_name: vfarcic/devops-toolkit
     tags:
     - test
+    registry: docker-hub
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
