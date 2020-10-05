@@ -15,13 +15,18 @@ steps:
     - git submodule init
     - git submodule update
     - hugo
+    - echo $CF_BRANCH
     stage: release
   build_step:
     title: Building container image
     type: build
     image_name: vfarcic/devops-toolkit
     tags:
-    - test
+    - pr-${{CF_PULL_REQUEST_NUMBER}}
     registry: docker-hub
     stage: release
+    when:
+      condition:
+        all:
+          isPR: "'${{CF_PULL_REQUEST_ID}}' != ''"
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
