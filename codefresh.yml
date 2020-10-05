@@ -15,7 +15,7 @@ steps:
     - git submodule init
     - git submodule update
     - hugo
-    - echo $CF_BRANCH
+    - echo $CF_PULL_REQUEST_ID
     stage: release
   build_step:
     title: Building container image
@@ -28,5 +28,4 @@ steps:
     when:
       condition:
         all:
-          isPR: "'${{CF_PULL_REQUEST_ID}}' != ''"
-# TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
+          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
