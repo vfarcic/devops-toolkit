@@ -1,0 +1,19 @@
+version: "1.0"
+stages:
+  - prepare
+  - apply
+steps:
+  main_clone:
+    title: Cloning repository
+    type: git-clone
+    repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+    revision: "${{CF_BRANCH}}"
+    stage: prepare
+  build:
+    image: klakegg/hugo:0.75.1-ext-alpine
+    title: Build
+    stage: prepare
+    commands:
+    - git submodule init
+    - git submodule update
+    - hugo
