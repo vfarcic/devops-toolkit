@@ -20,9 +20,7 @@ steps:
     title: Building container image
     type: build
     image_name: devops-toolkit
-    tags:
-    - test
-    - tset
+    tag: test
     registry: docker-hub
     stage: release
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
