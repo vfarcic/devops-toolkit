@@ -15,7 +15,7 @@ steps:
     - git submodule init
     - git submodule update
     - hugo
-    - echo $CF_BRANCH
+    - echo $CF_PULL_REQUEST_ID
     stage: release
   build_step:
     title: Building container image
