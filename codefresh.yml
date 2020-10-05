@@ -44,8 +44,8 @@ steps:
   clone_env_repo:
     title: Cloning preview env. repo
     type: git-clone
-    arguments:
-      repo: vfarcic/argocd-previews
+    working_directory: env-repo
+    repo: vfarcic/argocd-previews
     stage: deploy
     when:
       condition:
