@@ -1,6 +1,7 @@
 version: "1.0"
 stages:
   - release
+  - deploy
 steps:
   main_clone:
     title: Cloning repository
@@ -8,10 +9,11 @@ steps:
     repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
     revision: "${{CF_BRANCH}}"
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   build:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
@@ -21,10 +23,11 @@ steps:
     - hugo
     - echo $CF_PULL_REQUEST_ACTION
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   build_step:
     title: Building container image
     type: build
@@ -33,10 +36,18 @@ steps:
     - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     registry: docker-hub
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  clone_env_repo:
+    title: Cloning preview env. repo
+    type: git-clone
+    arguments:
+      repo: vfarcic/argocd-previews
+    stage: deploy
+
 
 # TODO: Is there a better way to find out whether it is a PR?
-
+# TODO: Split into multiple pipelines?
