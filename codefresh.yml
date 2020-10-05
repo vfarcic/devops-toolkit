@@ -8,10 +8,10 @@ steps:
     repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
     revision: "${{CF_BRANCH}}"
     stage: release
-    when:
-      condition:
-        all:
-          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
+    # when:
+    #   condition:
+    #     all:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "OPEN"'
   build:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
@@ -19,12 +19,12 @@ steps:
     - git submodule init
     - git submodule update
     - hugo
-    - echo $CF_PULL_REQUEST_ID
+    - echo $CF_PULL_REQUEST_ACTION
     stage: release
-    when:
-      condition:
-        all:
-          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
+    # when:
+    #   condition:
+    #     all:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "OPEN"'
   build_step:
     title: Building container image
     type: build
@@ -33,9 +33,9 @@ steps:
     - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     registry: docker-hub
     stage: release
-    when:
-      condition:
-        all:
-          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
+    # when:
+    #   condition:
+    #     all:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "OPEN"'
 
 # TODO: Is there a better way to find out whether it is a PR?
