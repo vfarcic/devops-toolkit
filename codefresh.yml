@@ -10,8 +10,8 @@ steps:
     stage: release
     # when:
     #   condition:
-    #     all:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "OPEN"'
+    #     any:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   build:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
@@ -23,8 +23,8 @@ steps:
     stage: release
     # when:
     #   condition:
-    #     all:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "OPEN"'
+    #     any:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   build_step:
     title: Building container image
     type: build
@@ -35,7 +35,7 @@ steps:
     stage: release
     # when:
     #   condition:
-    #     all:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "OPEN"'
+    #     any:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
 # TODO: Is there a better way to find out whether it is a PR?
