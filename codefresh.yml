@@ -22,7 +22,11 @@ steps:
     type: build
     image_name: vfarcic/devops-toolkit
     tags:
-    - test
+    - pr-${{CF_PULL_REQUEST_NUMBER}}
     registry: docker-hub
     stage: release
+    when:
+      condition:
+        all:
+          isPR: "'${{CF_PULL_REQUEST_ID}}' != ''"
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
