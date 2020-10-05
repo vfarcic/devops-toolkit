@@ -1,0 +1,7 @@
+ingress:
+  enabled: false
+istio:
+  enabled: true
+hpa: true
+rollout:
+  enabled: true

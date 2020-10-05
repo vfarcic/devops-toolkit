@@ -12,7 +12,7 @@ spec:
   minReplicas: 2
   maxReplicas: 6
   scaleTargetRef:
-  {{- if .Values.rollout.deploy }}
+  {{- if .Values.rollout.enabled }}
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
   {{- else }}

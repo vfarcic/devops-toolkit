@@ -1,6 +1,10 @@
+ingress:
+  enabled: false
+istio:
+  enabled: true
 hpa: true
 rollout:
-  deploy: true
+  enabled: true
   steps:
   - setWeight: 20
   - pause: {}
@@ -10,3 +14,5 @@ rollout:
   - pause: {duration: 10}
   - setWeight: 80
   - pause: {duration: 10}
+  analysis:
+    enabled: false

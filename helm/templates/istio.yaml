@@ -1,0 +1,47 @@
+{{- if .Values.istio.enabled }}
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  gateways:
+  - {{ template "fullname" . }}
+  hosts:
+  - {{ template "fullname" . }}.local
+  - {{ .Values.ingress.host }}
+  http:
+  - name: primary
+    route:
+    - destination:
+        host: {{ template "fullname" . }}
+        port:
+          number: 80
+      weight: 100
+    - destination:
+        host: {{ template "fullname" . }}-canary
+        port:
+          number: 80
+      weight: 0
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ template "fullname" . }}
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+#    - {{ .Values.ingress.host }}
+     - "*"
+{{- end }}

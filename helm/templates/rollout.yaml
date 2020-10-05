@@ -1,4 +1,4 @@
-{{- if .Values.rollout.deploy }}
+{{- if .Values.rollout.enabled }}
 ---
 
 apiVersion: argoproj.io/v1alpha1
@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
+        istio-injection: enabled
     spec:
       containers:
       - name: {{ .Chart.Name }}
@@ -45,11 +46,76 @@ spec:
       canaryService: {{ template "fullname" . }}-canary
       stableService: {{ template "fullname" . }}
       trafficRouting:
-        nginx:
-          stableIngress: {{ template "fullname" . }}
+        istio:
+          virtualService:
+            name: {{ template "fullname" . }}
+            routes:
+            - primary
       steps:
 {{ toYaml .Values.rollout.steps | indent 6 }}
+{{- if .Values.rollout.analysis.enabled }}
+      analysis:
+        templates:
+        - templateName: {{ template "fullname" . }}
+        startingStep: 2
+        args:
+        - name: service-name
+          value: "{{ template "fullname" . }}-canary.{{ .Release.Namespace }}.svc.cluster.local"
+{{- end }}
 
+{{- if .Values.rollout.analysis.enabled }}
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ template "fullname" . }}
+spec:
+  args:
+  - name: service-name
+  metrics:
+  - name: success-rate
+    interval: 10s
+    successCondition: result[0] >= 0.8
+    failureCondition: result[0] < 0.8
+    failureLimit: 3
+    provider:
+      prometheus:
+        address: http://prometheus-server.monitoring
+        query: |
+          sum(irate(
+            istio_requests_total{  
+              reporter="source",
+              destination_service=~"{{ "{{args.service-name}}" }}",
+              response_code=~"2.*"
+            }[5m]
+          )) / sum(irate(
+            istio_requests_total{
+              reporter="source",
+              destination_service=~"{{ "{{args.service-name}}" }}"
+            }[5m]
+          ))
+  - name: avg-req-duration
+    interval: 10s
+    successCondition: result[0] <= 100
+    failureLimit: 3
+    provider:
+      prometheus:
+        address: http://prometheus-server.monitoring
+        query: |
+          sum(irate(
+            istio_request_duration_milliseconds_sum{
+              reporter="source",
+              destination_service=~"{{ "{{args.service-name}}" }}"
+            }[5m]
+          )) / sum(irate(
+            istio_request_duration_milliseconds_count{
+              reporter="source",
+              destination_service=~"{{ "{{args.service-name}}" }}"
+            }[5m]
+          ))
+{{- end }}
+      
 ---
 
 apiVersion: v1

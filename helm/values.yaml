@@ -3,6 +3,7 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 ingress:
+  enabled: true
   host: devopstoolkitseries.com
 resources:
   limits:
@@ -17,14 +18,16 @@ readinessProbe:
   timeoutSeconds: 1
 hpa: false
 knativeDeploy: false
+istio:
+  enabled: false
 rollout:
   deploy: false
   steps:
-  - setWeight: 20
-  - pause: {duration: 10}
-  - setWeight: 40
-  - pause: {duration: 10}
-  - setWeight: 60
-  - pause: {duration: 10}
-  - setWeight: 80
-  - pause: {duration: 10}
+  - setWeight: 10
+  - pause: {duration: 1m}
+  - setWeight: 30
+  - pause: {duration: 30s}
+  - setWeight: 50
+  - pause: {duration: 30s}
+  analysis:
+    enabled: true
