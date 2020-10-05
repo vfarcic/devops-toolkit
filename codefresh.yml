@@ -28,5 +28,5 @@ steps:
     when:
       condition:
         all:
-          isPR: "'${{CF_PULL_REQUEST_ID}}' != ''"
+          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
 # TODO: Build PR tags (`${{CF_PULL_REQUEST_ID}}`)
