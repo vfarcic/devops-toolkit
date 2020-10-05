@@ -47,6 +47,22 @@ steps:
     arguments:
       repo: vfarcic/argocd-previews
     stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  build:
+    image: alpine
+    title: xxx
+    commands:
+    - ls -l
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
 
 # TODO: Is there a better way to find out whether it is a PR?
