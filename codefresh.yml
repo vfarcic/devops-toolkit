@@ -8,6 +8,10 @@ steps:
     repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
     revision: "${{CF_BRANCH}}"
     stage: release
+    when:
+      condition:
+        all:
+          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
   build:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
@@ -17,15 +21,21 @@ steps:
     - hugo
     - echo $CF_PULL_REQUEST_ID
     stage: release
+    when:
+      condition:
+        all:
+          prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
   build_step:
     title: Building container image
     type: build
     image_name: vfarcic/devops-toolkit
     tags:
-    - pr-${{CF_PULL_REQUEST_NUMBER}}
+    - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     registry: docker-hub
     stage: release
     when:
       condition:
         all:
           prOpen: '"${{CF_PR_STATE}}" == "OPEN"'
+
+# TODO: Is there a better way to find out whether it is a PR?
