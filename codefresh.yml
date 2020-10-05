@@ -52,7 +52,7 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build:
+  xxx:
     image: alpine
     title: xxx
     commands:
@@ -63,7 +63,6 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-
 
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
