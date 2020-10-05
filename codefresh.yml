@@ -39,3 +39,4 @@ steps:
     #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
 # TODO: Is there a better way to find out whether it is a PR?
+
