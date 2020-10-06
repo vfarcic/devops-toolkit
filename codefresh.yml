@@ -65,9 +65,7 @@ steps:
     - ls -l /usr/local/bin
     - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
     - chmod +x /usr/local/bin/kyml
-    - ls -l /
-    - ls -l /usr/local/bin/
-    - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_NAME -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
+    - cat $REPO_PATH/preview.yaml | kyml /usr/local/bin/kyml -e APP_NAME -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - cat helm/templates/$APP_ID.yaml
     stage: deploy
     when:
