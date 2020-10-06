@@ -54,7 +54,7 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   define_preview:
     image: debian
-    title: Defining preview environment
+    title: Defining preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
     - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
@@ -71,8 +71,22 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  push_env_repo:
+    title: Push the preview to the env repo
+    type: git-commit
+    repo: vfarcic/argocd-previews
+    commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+    working_directory: "${{clone_env_repo}}"
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
+# TODO: Change to mikefarah/yq
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
 # TODO: Rewrite the pipeline
+# TODO: Create a plugin
