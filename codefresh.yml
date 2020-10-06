@@ -83,6 +83,7 @@ steps:
       git: github
       repo: vfarcic/argocd-previews
       commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+      git_user_name: "${{CF_COMMIT_AUTHOR}}"
       working_directory: "/codefresh/volume/argocd-previews"
     stage: deploy
     when:
