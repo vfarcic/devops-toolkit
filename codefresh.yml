@@ -64,6 +64,7 @@ steps:
     - apk --no-cache add curl
     - ls -l /usr/local/bin
     - curl -sfL -o kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
+    - chmod +x kyml
     - cat $REPO_PATH/preview.yaml | ./kyml tmpl -e APP_NAME -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - cat helm/templates/$APP_ID.yaml
     stage: deploy
