@@ -65,7 +65,9 @@ steps:
     - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
     - ls -l /usr/local/bin # TODO: Remove
     - chmod +x /usr/local/bin/kyml
+    - cat $REPO_PATH/preview.yaml # TODO: Remove
     - cat $REPO_PATH/preview.yaml | /usr/local/bin/kyml tmpl -e APP_NAME -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
+    - echo $APP_ID # TODO: Remove
     - cat helm/templates/$APP_ID.yaml
     stage: deploy
     when:
@@ -78,4 +80,3 @@ steps:
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
-
