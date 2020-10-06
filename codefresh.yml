@@ -1,41 +1,107 @@
 version: "1.0"
 stages:
   - release
+  - deploy
 steps:
   main_clone:
     title: Cloning repository
     type: git-clone
-    repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
-    revision: "${{CF_BRANCH}}"
+    arguments:
+      git: github
+      repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+      revision: "${{CF_BRANCH}}"
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build:
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  build_app:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
     commands:
+    - echo $CF_PULL_REQUEST_ACTION
     - git submodule init
     - git submodule update
     - hugo
-    - echo $CF_PULL_REQUEST_ACTION
+    - export REPO_PATH=$PWD
+    - cf_export REPO_PATH
     stage: release
     # when:
     #   condition:
     #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build_step:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+    #       prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  build_image:
     title: Building container image
     type: build
-    image_name: vfarcic/devops-toolkit
-    tags:
-    - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
-    registry: docker-hub
+    arguments:
+      image_name: vfarcic/devops-toolkit
+      tags:
+      - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+      registry: docker-hub
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  clone_env_repo:
+    title: Cloning preview env. repo
+    type: git-clone
+    arguments:
+      git: github
+      repo: vfarcic/argocd-previews
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  define_preview:
+    image: debian
+    title: Defining preview environment app
+    working_directory: "${{clone_env_repo}}" 
+    commands:
+    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+    - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+    - apt update
+    - apt -y install curl
+    - apt -y install git
+    - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
+    - chmod +x /usr/local/bin/kyml
+    - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
+    - cat helm/templates/$APP_ID.yaml
+    - git add .
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  push_env_repo:
+    title: Push the preview to the env repo
+    type: git-commit
+    arguments:
+      git: github
+      repo: vfarcic/argocd-previews
+      commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+      git_user_name: "${{CF_COMMIT_AUTHOR}}"
+      working_directory: "/codefresh/volume/argocd-previews"
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
+# TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
+# TODO: Split into multiple pipelines?
+# TODO: When one of the commands fail, the pipeline is still successful
+# TODO: Rewrite the pipeline
+# TODO: Create a plugin
+# TODO: Assumes that the default `git` integration is used
+# TODO: Create triggers
+# TODO: Replace `vfarcic` and `github`
+# TODO: Create a pipeline from CLI
