@@ -21,9 +21,8 @@ steps:
     - git submodule init
     - git submodule update
     - hugo
-    - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     - export REPO_PATH=$PWD
-    - cf_export IMAGE_TAG REPO_PATH
+    - cf_export REPO_PATH
     stage: release
     when:
       condition:
@@ -35,7 +34,7 @@ steps:
     type: build
     image_name: vfarcic/devops-toolkit
     tags:
-    - ${{IMAGE_TAG}}
+    - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     registry: docker-hub
     stage: release
     when:
@@ -54,20 +53,17 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   define_preview:
-    image: alpine
+    image: debian
     title: Defining preview environment
     working_directory: "${{clone_env_repo}}" 
     commands:
     - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
-    - export APP_NAME=$CF_REPO_NAME
-    - export APP_HOST=$APP_ID.xip.io
-    - apk --no-cache add curl
-    - curl -sfL -o /usr/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
-    - ls -l /usr/bin # TODO: Remove
-    - chmod +x /usr/bin/kyml
-    - cat $REPO_PATH/preview.yaml # TODO: Remove
-    - cat $REPO_PATH/preview.yaml | /usr/bin/kyml tmpl -e APP_NAME -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
-    - echo $APP_ID # TODO: Remove
+    - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+    - apt update
+    - apt install curl
+    - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
+    - chmod +x /usr/local/bin/kyml
+    - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - cat helm/templates/$APP_ID.yaml
     stage: deploy
     when:

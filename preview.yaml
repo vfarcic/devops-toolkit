@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{.APP_NAME}}"
+  name: "{{.APP_ID}}"
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -16,10 +16,10 @@ spec:
         image:
           tag: {{.IMAGE_TAG}}
         ingress:
-          host: {{.APP_HOST}}
+          host: {{.APP_ID}}.xip.io
       version: v3
   destination:
-    namespace: "{{.APP_NAME}}"
+    namespace: "{{.APP_ID}}"
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
