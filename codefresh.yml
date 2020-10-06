@@ -74,8 +74,9 @@ steps:
   push_env_repo:
     title: Push the preview to the env repo
     type: git-commit
-    repo: vfarcic/argocd-previews
-    commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+    arguments:
+      repo: vfarcic/argocd-previews
+      commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
     working_directory: "${{clone_env_repo}}"
     stage: deploy
     when:
