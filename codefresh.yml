@@ -64,6 +64,7 @@ steps:
     - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     - apt update
     - apt -y install curl
+    - apt -y install git
     - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
     - chmod +x /usr/local/bin/kyml
     - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
@@ -90,7 +91,6 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
-# TODO: Switch to `arguments`
 # TODO: Change to mikefarah/yq
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
