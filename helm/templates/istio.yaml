@@ -42,6 +42,6 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-#    - {{ .Values.ingress.host }}
      - "*"
 {{- end }}
+

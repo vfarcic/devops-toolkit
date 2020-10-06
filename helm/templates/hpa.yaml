@@ -22,3 +22,4 @@ spec:
     name: {{ template "fullname" . }}
   targetCPUUtilizationPercentage: 80
 {{- end }}
+

@@ -111,7 +111,6 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
           prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
-
 # TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
@@ -123,3 +122,5 @@ steps:
 # TODO: Replace `vfarcic` and `github`
 # TODO: Create a pipeline from CLI
 # TODO: Figure out what could be useful to do after merging to the master branch
+# TODO: Create a release based on semantic versioning
+# TODO: Create a tag
