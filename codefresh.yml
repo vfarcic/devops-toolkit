@@ -75,6 +75,7 @@ steps:
     title: Push the preview to the env repo
     type: git-commit
     arguments:
+      git: github
       repo: vfarcic/argocd-previews
       commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
     working_directory: "${{clone_env_repo}}"
@@ -85,9 +86,11 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
+# TODO: Switch to `arguments`
 # TODO: Change to mikefarah/yq
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
 # TODO: Rewrite the pipeline
 # TODO: Create a plugin
+# TODO: Assumes that the default `git` integration is used
