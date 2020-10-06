@@ -16,7 +16,7 @@ spec:
         image:
           tag: {{.IMAGE_TAG}}
         ingress:
-          host: {{.APP_ID}}.xip.io
+          host: {{.APP_ID}}.devopstoolkitseries.com
       version: v3
   destination:
     namespace: "{{.APP_ID}}"
