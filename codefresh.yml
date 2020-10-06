@@ -26,11 +26,11 @@ steps:
     - export REPO_PATH=$PWD
     - cf_export REPO_PATH
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-    #       prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   build_image:
     title: Building container image
     type: build
