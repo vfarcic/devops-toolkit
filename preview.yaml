@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: CHANGE_NAME
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: previews
+  source:
+    path: helm
+    repoURL: https://github.com/vfarcic/devops-toolkit.git
+    targetRevision: HEAD
+    helm:
+      values: |
+        image:
+          tag: CHANGE_TAG
+        ingress:
+          host: CHANGE_HOST
+      version: v3
+  destination:
+    namespace: CHANGE_NAME
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true

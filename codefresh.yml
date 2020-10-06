@@ -56,7 +56,11 @@ steps:
     title: xxx # TODO: Change
     working_directory: "${{clone_env_repo}}" 
     commands:
+    - echo $main_clone
+    - echo $clone_env_repo
+    - cp $main_clone/preview.yaml $clone_env_repo/helm/templates/xxx.yaml
     - ls -l
+    - ls -l helm/templates/
     stage: deploy
     when:
       condition:
@@ -64,5 +68,7 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
+# TODO: Replace CHANGE_TAG, CHANGE_NAME, and CHANGE_HOST
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
+
