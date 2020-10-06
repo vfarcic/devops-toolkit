@@ -57,6 +57,7 @@ steps:
     title: xxx # TODO: Change
     working_directory: "${{clone_env_repo}}" 
     commands:
+    - echo ${{clone_env_repo}}
     - echo $REPO_PATH
     - cp $REPO_PATH/preview.yaml helm/templates/xxx.yaml
     - ls -l
