@@ -47,7 +47,6 @@ steps:
     type: git-clone
     repo: vfarcic/argocd-previews
     stage: deploy
-    git: 
     when:
       condition:
         any:
