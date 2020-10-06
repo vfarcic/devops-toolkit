@@ -109,6 +109,7 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
           prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
+
 # TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
