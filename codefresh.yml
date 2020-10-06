@@ -71,8 +71,21 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  commit_and_push_to_gitops:
+    title: Push the preview to the env repo
+    type: git-commit
+    working_directory: '${{clone_env_repo}}'
+    repo: vfarcic/argocd-previews
+    working_directory: "${{clone_env_repo}}" 
+    commit_message: Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
-# TODO: Replace CHANGE_TAG, CHANGE_NAME, and CHANGE_HOST
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
+# TODO: Rewrite the pipeline
