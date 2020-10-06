@@ -20,18 +20,17 @@ steps:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
     commands:
-    - echo $CF_PULL_REQUEST_ACTION
     - git submodule init
     - git submodule update
     - hugo
     - export REPO_PATH=$PWD
     - cf_export REPO_PATH
     stage: release
-    # when:
-    #   condition:
-    #     any:
-    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-    #       prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   build_image:
     title: Building container image
     type: build
@@ -58,6 +57,7 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+          prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
   define_preview:
     image: debian
     title: Defining preview environment app
@@ -71,7 +71,6 @@ steps:
     - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
     - chmod +x /usr/local/bin/kyml
     - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
-    - cat helm/templates/$APP_ID.yaml
     - git add .
     stage: deploy
     when:
@@ -79,8 +78,24 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  remove_preview:
+    image: debian
+    title: Removing preview environment app
+    working_directory: "${{clone_env_repo}}" 
+    commands:
+    - apt update
+    - apt -y install curl
+    - apt -y install git
+    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+    - rm -f helm/templates/$APP_ID.yaml
+    - git add .
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
   push_env_repo:
-    title: Push the preview to the env repo
+    title: Push preview env. changes to the repo
     type: git-commit
     arguments:
       git: github
@@ -94,6 +109,8 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+          prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
+
 
 # TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
@@ -105,3 +122,4 @@ steps:
 # TODO: Create triggers
 # TODO: Replace `vfarcic` and `github`
 # TODO: Create a pipeline from CLI
+# TODO: Figure out what could be useful to do after merging to the master branch
