@@ -52,13 +52,11 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  xxx: # TODO: Change
+  define_preview:
     image: alpine
-    title: xxx # TODO: Change
+    title: Defining preview environment
     working_directory: "${{clone_env_repo}}" 
     commands:
-    - echo ${{clone_env_repo}}
-    - echo $REPO_PATH
     - cp $REPO_PATH/preview.yaml helm/templates/xxx.yaml
     - ls -l
     - ls -l helm/templates/

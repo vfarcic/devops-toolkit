@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: CHANGE_NAME
+  name: "{{.APP_NAME}}"
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,12 +14,12 @@ spec:
     helm:
       values: |
         image:
-          tag: CHANGE_TAG
+          tag: {{.IMAGE_TAG}}
         ingress:
-          host: CHANGE_HOST
+          host: {{.APP_HOST}}
       version: v3
   destination:
-    namespace: CHANGE_NAME
+    namespace: "{{.APP_NAME}}"
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
