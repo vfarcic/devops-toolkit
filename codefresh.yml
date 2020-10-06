@@ -7,6 +7,7 @@ steps:
     title: Cloning repository
     type: git-clone
     arguments:
+      git: github
       repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
       revision: "${{CF_BRANCH}}"
     stage: release
@@ -15,22 +16,23 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build:
+  build_app:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
     commands:
+    - echo $CF_PULL_REQUEST_ACTION
     - git submodule init
     - git submodule update
     - hugo
     - export REPO_PATH=$PWD
     - cf_export REPO_PATH
     stage: release
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build_step:
+    # when:
+    #   condition:
+    #     any:
+    #       prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+    #       prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  build_image:
     title: Building container image
     type: build
     arguments:
@@ -48,6 +50,7 @@ steps:
     title: Cloning preview env. repo
     type: git-clone
     arguments:
+      git: github
       repo: vfarcic/argocd-previews
     stage: deploy
     when:
@@ -92,10 +95,13 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
 
-# TODO: Change to mikefarah/yq
+# TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
 # TODO: Rewrite the pipeline
 # TODO: Create a plugin
 # TODO: Assumes that the default `git` integration is used
+# TODO: Create triggers
+# TODO: Replace `vfarcic` and `github`
+# TODO: Create a pipeline from CLI
