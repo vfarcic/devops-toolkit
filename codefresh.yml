@@ -90,8 +90,7 @@ steps:
     when:
       condition:
         any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
   push_env_repo:
     title: Push preview env. changes to the repo
     type: git-commit
@@ -120,3 +119,4 @@ steps:
 # TODO: Create triggers
 # TODO: Replace `vfarcic` and `github`
 # TODO: Create a pipeline from CLI
+# TODO: Figure out what could be useful to do after merging to the master branch
