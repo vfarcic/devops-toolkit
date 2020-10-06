@@ -20,7 +20,6 @@ steps:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
     commands:
-    - echo $CF_PULL_REQUEST_ACTION
     - git submodule init
     - git submodule update
     - hugo
@@ -58,6 +57,7 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+          prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
   define_preview:
     image: debian
     title: Defining preview environment app
@@ -71,7 +71,20 @@ steps:
     - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
     - chmod +x /usr/local/bin/kyml
     - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
-    - cat helm/templates/$APP_ID.yaml
+    - git add .
+    stage: deploy
+    when:
+      condition:
+        any:
+          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+  remove_preview:
+    image: alpine
+    title: Removing preview environment app
+    working_directory: "${{clone_env_repo}}" 
+    commands:
+    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+    - rm -f helm/templates/$APP_ID.yaml
     - git add .
     stage: deploy
     when:
@@ -80,7 +93,7 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   push_env_repo:
-    title: Push the preview to the env repo
+    title: Push preview env. changes to the repo
     type: git-commit
     arguments:
       git: github
@@ -94,6 +107,7 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+          prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
 # TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
