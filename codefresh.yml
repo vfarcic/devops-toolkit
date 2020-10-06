@@ -22,7 +22,7 @@ steps:
     - git submodule update
     - hugo
     - echo $CF_PULL_REQUEST_ACTION
-    - CF_EXPORT REPO_PATH=$PWD
+    - cf_export REPO_PATH=$PWD
     stage: release
     when:
       condition:
