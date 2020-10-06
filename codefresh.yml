@@ -64,6 +64,7 @@ steps:
     - apk --no-cache add curl
     - ls -l /usr/local/bin
     - curl -sfL -o kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
+    - ls -l
     - chmod +x kyml
     - cat $REPO_PATH/preview.yaml | ./kyml tmpl -e APP_NAME -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - cat helm/templates/$APP_ID.yaml
@@ -77,4 +78,5 @@ steps:
 # TODO: Replace CHANGE_TAG, CHANGE_NAME, and CHANGE_HOST
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
+# TODO: When one of the commands fail, the pipeline is still successful
 
