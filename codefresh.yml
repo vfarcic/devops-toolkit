@@ -79,10 +79,13 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   remove_preview:
-    image: alpine
+    image: debian
     title: Removing preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
+    - apt update
+    - apt -y install curl
+    - apt -y install git
     - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - rm -f helm/templates/$APP_ID.yaml
     - git add .
