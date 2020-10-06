@@ -6,6 +6,7 @@ steps:
   main_clone:
     title: Cloning repository
     type: git-clone
+    git: github
     repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
     revision: "${{CF_BRANCH}}"
     stage: release
@@ -45,8 +46,10 @@ steps:
   clone_env_repo:
     title: Cloning preview env. repo
     type: git-clone
+    git: github
     repo: vfarcic/argocd-previews
     stage: deploy
+    git: 
     when:
       condition:
         any:
@@ -74,6 +77,7 @@ steps:
   push_env_repo:
     title: Push the preview to the env repo
     type: git-commit
+    git: github
     repo: vfarcic/argocd-previews
     commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
     working_directory: "${{clone_env_repo}}"
