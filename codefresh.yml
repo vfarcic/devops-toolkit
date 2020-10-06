@@ -78,7 +78,7 @@ steps:
       git: github
       repo: vfarcic/argocd-previews
       commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
-    working_directory: "${{clone_env_repo}}"
+      working_directory: "${{clone_env_repo}}"
     stage: deploy
     when:
       condition:
