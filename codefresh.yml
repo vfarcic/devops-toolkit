@@ -22,6 +22,7 @@ steps:
     - git submodule update
     - hugo
     - echo $CF_PULL_REQUEST_ACTION
+    - CF_EXPORT REPO_PATH=$PWD
     stage: release
     when:
       condition:
@@ -56,9 +57,8 @@ steps:
     title: xxx # TODO: Change
     working_directory: "${{clone_env_repo}}" 
     commands:
-    - echo $main_clone
-    - echo $clone_env_repo
-    - cp $main_clone/preview.yaml $clone_env_repo/helm/templates/xxx.yaml
+    - echo $REPO_PATH
+    - cp $REPO_PATH/preview.yaml helm/templates/xxx.yaml
     - ls -l
     - ls -l helm/templates/
     stage: deploy
