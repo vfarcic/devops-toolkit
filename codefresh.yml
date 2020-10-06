@@ -57,9 +57,9 @@ steps:
     title: Defining preview environment
     working_directory: "${{clone_env_repo}}" 
     commands:
-    - cp $REPO_PATH/preview.yaml helm/templates/xxx.yaml
-    - ls -l
+    - cp $REPO_PATH/preview.yaml helm/templates/pr-$CF_PULL_REQUEST_NUMBER-$CF_REPO_NAME.yaml
     - ls -l helm/templates/
+    - cat helm/templates/pr-$CF_PULL_REQUEST_NUMBER-$CF_REPO_NAME.yaml
     stage: deploy
     when:
       condition:
