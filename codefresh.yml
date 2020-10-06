@@ -62,6 +62,7 @@ steps:
     - export APP_NAME=$CF_REPO_NAME
     - export APP_HOST=$APP_ID.xip.io
     - cp $REPO_PATH/preview.yaml helm/templates/$APP_ID.yaml
+    - apk --no-cache add curl
     - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
     - chmod +x /usr/local/bin/kyml
     - cat helm/templates/$APP_ID.yaml
