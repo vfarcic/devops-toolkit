@@ -44,7 +44,6 @@ steps:
   clone_env_repo:
     title: Cloning preview env. repo
     type: git-clone
-    working_directory: env-repo
     repo: vfarcic/argocd-previews
     stage: deploy
     when:
@@ -52,9 +51,10 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  xxx:
+  xxx: # TODO: Change
     image: alpine
-    title: xxx
+    title: xxx # TODO: Change
+    working_directory: "${{clone_env_repo}}" 
     commands:
     - ls -l
     stage: deploy
