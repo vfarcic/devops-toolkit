@@ -71,13 +71,13 @@ steps:
         any:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  commit_and_push_to_gitops:
+  push_env_repo:
     title: Push the preview to the env repo
     type: git-commit
-    working_directory: '${{clone_env_repo}}'
+    working_directory: "${{clone_env_repo}}"
     repo: vfarcic/argocd-previews
     working_directory: "${{clone_env_repo}}" 
-    commit_message: Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}
+    commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
     stage: deploy
     when:
       condition:
