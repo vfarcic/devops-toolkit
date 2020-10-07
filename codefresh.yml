@@ -20,11 +20,8 @@ steps:
     image: klakegg/hugo:0.75.1-ext-alpine
     title: Build Hugo
     commands:
-    - git submodule init
-    - git submodule update
-    - hugo
-    - export REPO_PATH=$PWD
-    - cf_export REPO_PATH
+    - ./build.sh
+    - cf_export REPO_PATH=$PWD APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     stage: release
     when:
       condition:
@@ -63,7 +60,6 @@ steps:
     title: Defining preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
-    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
     - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - git add .
@@ -78,7 +74,6 @@ steps:
     title: Removing preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
-    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - rm -f helm/templates/$APP_ID.yaml
     - git add .
     stage: deploy
@@ -103,16 +98,9 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
           prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
-
-# TODO: Is there a better way to find out whether it is a PR?
-# TODO: Split into multiple pipelines?
-# TODO: When one of the commands fail, the pipeline is still successful
-# TODO: Rewrite the pipeline
-# TODO: Create a plugin
-# TODO: Assumes that the default `git` integration is used
 # TODO: Create triggers
 # TODO: Replace `vfarcic` and `github`
 # TODO: Create a pipeline from CLI
-# TODO: Figure out what could be useful to do after merging to the master branch
-# TODO: Create a release based on semantic versioning
 # TODO: Create a tag
+# TODO: Is there a better way to find out whether it is a PR?
+# TODO: Create a plugin
