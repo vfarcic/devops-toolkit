@@ -21,7 +21,7 @@ steps:
     title: Build Hugo
     commands:
     - ./build.sh
-    - cf_export REPO_PATH=$PWD APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+    - cf_export REPO_PATH=$PWD
     stage: release
     when:
       condition:
@@ -61,6 +61,7 @@ steps:
     working_directory: "${{clone_env_repo}}" 
     commands:
     - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - git add .
     stage: deploy
@@ -74,6 +75,7 @@ steps:
     title: Removing preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
+    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - rm -f helm/templates/$APP_ID.yaml
     - git add .
     stage: deploy
