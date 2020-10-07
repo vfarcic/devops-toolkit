@@ -103,6 +103,7 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
           prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
+
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
