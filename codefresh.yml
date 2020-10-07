@@ -59,17 +59,12 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
           prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
   define_preview:
-    image: debian
+    image: vfarcic/argocd-pipeline:1.0.ee76b7a
     title: Defining preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
     - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
-    - apt update
-    - apt -y install curl
-    - apt -y install git
-    - curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20190906/kyml_20190906_linux_amd64
-    - chmod +x /usr/local/bin/kyml
     - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
     - git add .
     stage: deploy
@@ -79,13 +74,10 @@ steps:
           prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
   remove_preview:
-    image: debian
+    image: vfarcic/argocd-pipeline:1.0.ee76b7a
     title: Removing preview environment app
     working_directory: "${{clone_env_repo}}" 
     commands:
-    - apt update
-    - apt -y install curl
-    - apt -y install git
     - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
     - rm -f helm/templates/$APP_ID.yaml
     - git add .
@@ -111,7 +103,6 @@ steps:
           prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
           prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
-# TODO: Change `define_preview` to a custom image
 # TODO: Is there a better way to find out whether it is a PR?
 # TODO: Split into multiple pipelines?
 # TODO: When one of the commands fail, the pipeline is still successful
