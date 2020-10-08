@@ -1,8 +1,8 @@
 version: "1.0"
 kind: pipeline
 metadata:
-  name: devops-catalog/devops-toolkit-pr-open
-  description: Triggered when a PR is opened or synced
+  name: devops-catalog/devops-toolkit-close
+  description: Triggered when a PR is closed
   project: devops-catalog
 spec:
   triggers:
@@ -11,39 +11,13 @@ spec:
     name: pr-open
     repo: vfarcic/devops-toolkit
     events:
-    - pullrequest.opened
-    - pullrequest.synchronize
+    - pullrequest.closed
     pullRequestTargetBranchRegex: /master/gi
     verified: true
   contexts: []
   stages:
-    - release
     - deploy
   steps:
-    main_clone:
-      title: Cloning repository
-      type: git-clone
-      arguments:
-        git: github
-        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
-        revision: "${{CF_BRANCH}}"
-      stage: release
-    build_app:
-      image: klakegg/hugo:0.75.1-ext-alpine
-      title: Build Hugo
-      commands:
-      - ./build.sh
-      - cf_export REPO_PATH=$PWD
-      stage: release
-    build_image:
-      title: Building container image
-      type: build
-      arguments:
-        image_name: vfarcic/devops-toolkit
-        tags:
-        - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
-        registry: docker-hub
-      stage: release
     clone_env_repo:
       title: Cloning preview env. repo
       type: git-clone
@@ -51,14 +25,13 @@ spec:
         git: github
         repo: vfarcic/argocd-previews
       stage: deploy
-    define_preview:
+    remove_preview:
       image: vfarcic/argocd-pipeline:1.0.ee76b7a
-      title: Defining preview environment app
+      title: Removing preview environment app
       working_directory: "${{clone_env_repo}}" 
       commands:
-      - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
       - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
-      - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG | tee helm/templates/$APP_ID.yaml
+      - rm -f helm/templates/$APP_ID.yaml
       - git add .
       stage: deploy
     push_env_repo:

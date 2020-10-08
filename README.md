@@ -31,16 +31,6 @@ docker image push $IMAGE_DH:$VERSION
 
 docker image push $IMAGE_GCR:$VERSION
 
-# gcloud run deploy \
-#     devops-toolkit-series \
-#     --image $IMAGE_GCR:$VERSION \
-#     --region us-east1 \
-#     --allow-unauthenticated \
-#     --port 8080 \
-#     --concurrency 100 \
-#     --platform managed \
-#     --project $PROJECT_ID
-
 gcloud run deploy \
     devops-toolkit-series \
     --image $IMAGE_GCR:$VERSION \
