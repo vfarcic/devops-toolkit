@@ -8,7 +8,7 @@ spec:
   triggers:
   - type: git
     provider: github
-    name: main
+    name: pr-open
     repo: vfarcic/devops-toolkit
     events:
     - pullrequest.opened
