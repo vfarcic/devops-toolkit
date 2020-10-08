@@ -1,108 +1,117 @@
 version: "1.0"
-stages:
-  - release
-  - deploy
-steps:
-  main_clone:
-    title: Cloning repository
-    type: git-clone
-    arguments:
-      git: github
-      repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
-      revision: "${{CF_BRANCH}}"
-    stage: release
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build_app:
-    image: klakegg/hugo:0.75.1-ext-alpine
-    title: Build Hugo
-    commands:
-    - ./build.sh
-    - cf_export REPO_PATH=$PWD
-    stage: release
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  build_image:
-    title: Building container image
-    type: build
-    arguments:
-      image_name: vfarcic/devops-toolkit
-      tags:
-      - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
-      registry: docker-hub
-    stage: release
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  clone_env_repo:
-    title: Cloning preview env. repo
-    type: git-clone
-    arguments:
-      git: github
-      repo: vfarcic/argocd-previews
-    stage: deploy
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-          prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
-  define_preview:
-    image: vfarcic/argocd-pipeline:1.0.ee76b7a
-    title: Defining preview environment app
-    working_directory: "${{clone_env_repo}}" 
-    commands:
-    - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
-    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
-    - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
-    - git add .
-    stage: deploy
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-  remove_preview:
-    image: vfarcic/argocd-pipeline:1.0.ee76b7a
-    title: Removing preview environment app
-    working_directory: "${{clone_env_repo}}" 
-    commands:
-    - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
-    - rm -f helm/templates/$APP_ID.yaml
-    - git add .
-    stage: deploy
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
-  push_env_repo:
-    title: Push preview env. changes to the repo
-    type: git-commit
-    arguments:
-      git: github
-      repo: vfarcic/argocd-previews
-      commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
-      git_user_name: "${{CF_COMMIT_AUTHOR}}"
-      working_directory: "/codefresh/volume/argocd-previews"
-    stage: deploy
-    when:
-      condition:
-        any:
-          prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
-          prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
-          prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
-
-# TODO: Create triggers
-# TODO: Replace `vfarcic` and `github`
-# TODO: Create a pipeline from CLI
-# TODO: Create a tag
-# TODO: Is there a better way to find out whether it is a PR?
-# TODO: Create a plugin
+kind: pipeline
+metadata:
+  name: devops-catalog/devops-toolkit
+  description: Yet another pipeline
+  project: devops-catalog
+spec:
+  triggers:
+  - type: git
+    provider: github
+    name: main
+    repo: vfarcic/devops-toolkit
+    events:
+    - push
+    branchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - release
+    - deploy
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        git: github
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        revision: "${{CF_BRANCH}}"
+      stage: release
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+            prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    build_app:
+      image: klakegg/hugo:0.75.1-ext-alpine
+      title: Build Hugo
+      commands:
+      - ./build.sh
+      - cf_export REPO_PATH=$PWD
+      stage: release
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+            prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    build_image:
+      title: Building container image
+      type: build
+      arguments:
+        image_name: vfarcic/devops-toolkit
+        tags:
+        - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+        registry: docker-hub
+      stage: release
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+            prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    clone_env_repo:
+      title: Cloning preview env. repo
+      type: git-clone
+      arguments:
+        git: github
+        repo: vfarcic/argocd-previews
+      stage: deploy
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+            prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+            prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
+    define_preview:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Defining preview environment app
+      working_directory: "${{clone_env_repo}}" 
+      commands:
+      - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+      - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+      - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG -e APP_HOST | tee helm/templates/$APP_ID.yaml
+      - git add .
+      stage: deploy
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+            prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+    remove_preview:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Removing preview environment app
+      working_directory: "${{clone_env_repo}}" 
+      commands:
+      - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+      - rm -f helm/templates/$APP_ID.yaml
+      - git add .
+      stage: deploy
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
+    push_env_repo:
+      title: Push preview env. changes to the repo
+      type: git-commit
+      arguments:
+        git: github
+        repo: vfarcic/argocd-previews
+        commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        git_user_name: "${{CF_COMMIT_AUTHOR}}"
+        working_directory: "/codefresh/volume/argocd-previews"
+      stage: deploy
+      when:
+        condition:
+          any:
+            prOpen: '"${{CF_PULL_REQUEST_ACTION}}" == "opened"'
+            prSync: '"${{CF_PULL_REQUEST_ACTION}}" == "synchronize"'
+            prClose: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
