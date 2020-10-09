@@ -1,18 +1,19 @@
 version: "1.0"
 kind: pipeline
 metadata:
-  name: devops-catalog/devops-toolkit-pr-open
+  name: devops-toolkit-pr-open
   description: Triggered when a PR is opened or synced
-  project: devops-catalog
 spec:
   triggers:
   - type: git
     provider: github
+    context: github
     name: pr-open
     repo: vfarcic/devops-toolkit
     events:
     - pullrequest.opened
     - pullrequest.synchronize
+    pullRequestAllowForkEvents: true
     pullRequestTargetBranchRegex: /master/gi
     verified: true
   contexts: []
@@ -24,8 +25,8 @@ spec:
       title: Cloning repository
       type: git-clone
       arguments:
-        git: github
         repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github
         revision: "${{CF_BRANCH}}"
       stage: release
     build_app:
@@ -48,8 +49,8 @@ spec:
       title: Cloning preview env. repo
       type: git-clone
       arguments:
-        git: github
         repo: vfarcic/argocd-previews
+        git: github
       stage: deploy
     define_preview:
       image: vfarcic/argocd-pipeline:1.0.ee76b7a
@@ -65,8 +66,8 @@ spec:
       title: Push preview env. changes to the repo
       type: git-commit
       arguments:
-        git: github
         repo: vfarcic/argocd-previews
+        git: github
         commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: "/codefresh/volume/argocd-previews"

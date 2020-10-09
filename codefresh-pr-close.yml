@@ -1,17 +1,18 @@
 version: "1.0"
 kind: pipeline
 metadata:
-  name: devops-catalog/devops-toolkit-close
+  name: devops-toolkit-close
   description: Triggered when a PR is closed
-  project: devops-catalog
 spec:
   triggers:
   - type: git
     provider: github
+    context: github
     name: pr-open
     repo: vfarcic/devops-toolkit
     events:
     - pullrequest.closed
+    pullRequestAllowForkEvents: true
     pullRequestTargetBranchRegex: /master/gi
     verified: true
   contexts: []
