@@ -17,7 +17,7 @@ spec:
           repository: vfarcic/devops-toolkit
           tag: {{.IMAGE_TAG}}
         ingress:
-          host: {{.APP_ID}}.devopstoolkitseries.com
+          host: {{.APP_HOST}}
       version: v3
   destination:
     namespace: "{{.APP_ID}}"
