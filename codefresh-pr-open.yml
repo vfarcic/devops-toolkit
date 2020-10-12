@@ -42,7 +42,7 @@ spec:
       arguments:
         image_name: vfarcic/devops-toolkit
         tags:
-        - pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+        - pr-${{CF_SHORT_REVISION}}
         registry: docker-hub
       stage: release
     clone_env_repo:
@@ -57,7 +57,7 @@ spec:
       title: Defining preview environment app
       working_directory: "${{clone_env_repo}}" 
       commands:
-      - export IMAGE_TAG=pr-${{CF_PULL_REQUEST_NUMBER}}-${{CF_SHORT_REVISION}}
+      - export IMAGE_TAG=pr-${{CF_SHORT_REVISION}}
       - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
       - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG | tee helm/templates/$APP_ID.yaml
       - git add .
