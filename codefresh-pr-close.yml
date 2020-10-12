@@ -8,7 +8,7 @@ spec:
   - type: git
     provider: github
     context: github
-    name: pr-open
+    name: pr-close
     repo: vfarcic/devops-toolkit
     events:
     - pullrequest.closed
