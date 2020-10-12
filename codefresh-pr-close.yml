@@ -1,7 +1,7 @@
 version: "1.0"
 kind: pipeline
 metadata:
-  name: devops-toolkit-close
+  name: devops-toolkit-pr-close
   description: Triggered when a PR is closed
 spec:
   triggers:
