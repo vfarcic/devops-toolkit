@@ -31,8 +31,8 @@ spec:
         revision: "${{CF_BRANCH}}"
       stage: release
     build_app:
-      image: klakegg/hugo:0.75.1-ext-alpine
       title: Building Hugo
+      image: klakegg/hugo:0.75.1-ext-alpine
       commands:
       - ./build.sh
       - cf_export REPO_PATH=$PWD
@@ -43,14 +43,14 @@ spec:
       arguments:
         image_name: vfarcic/devops-toolkit
         tags:
-        - pr-${{CF_SHORT_REVISION}}
+        - ${{CF_SHORT_REVISION}}
         registry: docker-hub
       stage: release
-    enrich-image:
+    enrich_image:
       title: Adding PR info
       type: image-enricher
       arguments:
-        IMAGE: vfarcic/devops-toolkit:pr-${{CF_SHORT_REVISION}}
+        IMAGE: vfarcic/devops-toolkit:${{CF_SHORT_REVISION}}
         BRANCH: '${{CF_BRANCH}}'
         REPO: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
         GIT_PROVIDER_NAME: github
@@ -67,7 +67,7 @@ spec:
       title: Defining preview environment app
       working_directory: "${{clone_env_repo}}" 
       commands:
-      - export IMAGE_TAG=pr-${{CF_SHORT_REVISION}}
+      - export IMAGE_TAG=${{CF_SHORT_REVISION}}
       - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
       - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG | tee helm/templates/$APP_ID.yaml
       - git add .
