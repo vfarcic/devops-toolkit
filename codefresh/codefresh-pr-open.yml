@@ -89,4 +89,5 @@ spec:
     #     app_name: previews
     #     context: argocd
     #     wait_healthy: true
+    #     additional_flags: "--insecure --grpc-web"
     #   stage: deploy
