@@ -82,12 +82,21 @@ spec:
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: "/codefresh/volume/argocd-previews"
       stage: deploy
-    # sync:
-    #   title: Sync the app
-    #   type: argocd-sync
-    #   arguments:
-    #     app_name: previews
-    #     context: argocd
-    #     wait_healthy: true
-    #     additional_flags: "--insecure --grpc-web"
-    #   stage: deploy
+    sync-previews:
+      title: Syncing the previews
+      type: argocd-sync
+      arguments:
+        app_name: previews
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+      stage: deploy
+    sync-app:
+      title: Syncing the app
+      type: argocd-sync
+      arguments:
+        app_name: ${{APP_ID}}
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+      stage: deploy
