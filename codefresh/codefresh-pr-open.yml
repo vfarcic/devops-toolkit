@@ -73,7 +73,7 @@ spec:
       - git add .
       stage: deploy
     push_env_repo:
-      title: Push preview env. changes to the repo
+      title: Pushing preview env. changes to the repo
       type: git-commit
       arguments:
         repo: vfarcic/argocd-previews
@@ -82,21 +82,13 @@ spec:
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: "/codefresh/volume/argocd-previews"
       stage: deploy
-    sync-previews:
-      title: Syncing the previews
-      type: argocd-sync
-      arguments:
-        app_name: previews
-        context: argocd
-        wait_healthy: true
-        additional_flags: "--insecure --grpc-web"
-      stage: deploy
     sync-app:
-      title: Syncing the app
+      title: Waiting for the app to sync
       type: argocd-sync
       arguments:
         app_name: ${{APP_ID}}
         context: argocd
         wait_healthy: true
         additional_flags: "--insecure --grpc-web"
+        sync: false
       stage: deploy
