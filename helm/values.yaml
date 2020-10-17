@@ -21,7 +21,7 @@ knativeDeploy: false
 istio:
   enabled: false
 rollout:
-  deploy: false
+  enabled: false
   steps:
   - setWeight: 10
   - pause: {duration: 2m}
