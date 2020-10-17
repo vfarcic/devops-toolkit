@@ -36,6 +36,7 @@ spec:
       commands:
       - ./build.sh
       - cf_export REPO_PATH=$PWD
+      - cf_export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
       stage: release
     build_image:
       title: Building container image
@@ -68,7 +69,6 @@ spec:
       working_directory: "${{clone_env_repo}}" 
       commands:
       - export IMAGE_TAG=$CF_SHORT_REVISION
-      - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
       - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG | tee helm/templates/$APP_ID.yaml
       - git add .
       stage: deploy
@@ -82,6 +82,16 @@ spec:
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: "/codefresh/volume/argocd-previews"
       stage: deploy
+    sync-previews:
+      title: Waiting for the previews to sync
+      type: argocd-sync
+      arguments:
+        app_name: previews
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+        sync: true
+      stage: deploy
     sync-app:
       title: Waiting for the app to sync
       type: argocd-sync
@@ -90,5 +100,5 @@ spec:
         context: argocd
         wait_healthy: true
         additional_flags: "--insecure --grpc-web"
-        sync: false
+        sync: true
       stage: deploy
