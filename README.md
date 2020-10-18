@@ -11,7 +11,7 @@ hugo
 
 export PROJECT_ID=vfarcic
 
-export VERSION=2.9.8
+export VERSION=2.9.9
 
 export IMAGE_DH=vfarcic/devops-toolkit-series
 
@@ -28,6 +28,8 @@ docker login
 docker image push $IMAGE_DH
 
 docker image push $IMAGE_DH:$VERSION
+
+gcloud auth configure-docker
 
 docker image push $IMAGE_GCR:$VERSION
 
