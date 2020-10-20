@@ -10,7 +10,7 @@ The **video course** is available in **[Udemy](https://www.udemy.com/course/devo
 
 The **book** is currently available only from **[LeanPub](https://leanpub.com/the-devops-toolkit-catalog)**.
 
-![](/img/catalog-smaller.jpg#floatright")
+![](/img/catalog-smaller.jpg#floatright)
 
 Unlike my other books and courses where I typically dive into a single tool or a single process, this time, I chose a different approach. Instead of going to great lengths trying to help someone become proficient in one thing, this time, I am trying to give you a quick introduction into many different tools and processes. We will skip the potentially lengthy discussions and in-depth exercises. What I want, this time, is to help you make decisions. Which tool works the best for a given task? What should we explore in more depth, and what is a waste of time? The goal is not to learn everything about a tool in detail but rather to dive into many concepts and a plethora of tools right away. The aim is to get you up-to-speed fast while producing useful "real world" results. Think of each chapter as a crash-course into something with the outcome that you can use right away.
 

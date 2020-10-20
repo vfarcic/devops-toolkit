@@ -11,7 +11,7 @@ hugo
 
 export PROJECT_ID=vfarcic
 
-export VERSION=2.9.9
+export VERSION=2.9.10
 
 export IMAGE_DH=vfarcic/devops-toolkit-series
 

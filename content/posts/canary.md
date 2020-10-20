@@ -8,7 +8,7 @@ draft: false
 
 Preview it or buy it now at **[Udemy](https://www.udemy.com/course/canary-deployments-to-kubernetes-using-istio-and-friends/?referralCode=75549ECDBC41B27D94C4)**.
 
-![](/img/canary-smaller.jpg#floatright")
+![](/img/canary-smaller.jpg#floatright)
 
 Kubernetes provides a few "decent" deployment strategies out of the box. However, they might not be enough. Canary is missing.
 

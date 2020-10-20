@@ -10,7 +10,7 @@ draft: false
 
 Buy it now from **[Amazon](https://amzn.to/2GvzDjy)**, **[LeanPub](https://leanpub.com/the-devops-2-3-toolkit)**, or look for it through your favorite book seller.
 
-![](/img/devops23-smaller.jpg#floatright")
+![](/img/devops23-smaller.jpg#floatright)
 
 The goal of this book is not to convince you to adopt Kubernetes but to provide a detailed overview of its features. I want you to become confident in your Kubernetes knowledge and only then choose whether to embrace it. That is, unless you already made up your mind and stumbled upon this book in search of Kubernetes guidance.
 

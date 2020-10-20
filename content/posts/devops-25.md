@@ -10,7 +10,7 @@ draft: false
 
 Buy it now from **[Amazon](https://amzn.to/2RMKNVT)**, **[LeanPub](https://leanpub.com/the-devops-2-5-toolkit)**, or look for it through your favorite book seller.
 
-![](/img/devops25-smaller.jpg#floatright")
+![](/img/devops25-smaller.jpg#floatright)
 
 What do we do in Kubernetes after we master deployments and automate all the processes? We dive into monitoring, logging, auto-scaling, and other topics aimed at making our cluster resilient, self-sufficient, and self-adaptive.
 

@@ -10,7 +10,7 @@ The **video course** is available in **[Udemy](https://www.udemy.com/course/kube
 
 The **book** is available from **[Amazon](https://amzn.to/2xUscyO)**, **[LeanPub](https://leanpub.com/the-devops-2-7-toolkit)**, and (probably) through your favorite book seller.
 
-![](/img/chaos-smaller.jpg#floatright")
+![](/img/chaos-smaller.jpg#floatright)
 
 There are very few things as satisfying as destruction, especially when we're frustrated.
 
