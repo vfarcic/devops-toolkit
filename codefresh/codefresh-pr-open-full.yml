@@ -65,7 +65,7 @@ spec:
         MESSAGE: "${{CF_COMMIT_MESSAGE}}"
         JIRA_HOST: devops-catalog.atlassian.net
         JIRA_EMAIL: viktor@farcic.com
-        JIRA_API_TOKEN: "heGcPbR3HddikfuLYw0MA8DC"
+        JIRA_API_TOKEN: @JIRA_API_TOKEN@
       stage: release
     clone_env_repo:
       title: Cloning preview env. repo
