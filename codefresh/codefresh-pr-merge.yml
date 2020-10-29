@@ -61,7 +61,7 @@ spec:
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: /codefresh/volume/argocd-production
       stage: deploy
-    github-pr:
+    github_pr:
       title: Creating a pull request
       type: github-pr
       working_directory: "${{clone_env_repo}}"

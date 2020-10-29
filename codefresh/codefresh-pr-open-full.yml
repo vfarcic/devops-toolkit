@@ -65,7 +65,7 @@ spec:
         MESSAGE: "${{CF_COMMIT_MESSAGE}}"
         JIRA_HOST: devops-catalog.atlassian.net
         JIRA_EMAIL: viktor@farcic.com
-        JIRA_API_TOKEN: REPLACE_JIRA_API_TOKEN
+        JIRA_API_TOKEN: "${{JIRA_API_TOKEN}}"
       stage: release
     clone_env_repo:
       title: Cloning preview env. repo
@@ -94,26 +94,6 @@ spec:
         working_directory: "/codefresh/volume/argocd-previews"
       stage: deploy
     sync-previews:
-      title: Waiting for the previews to sync
-      type: argocd-sync
-      arguments:
-        app_name: previews
-        context: argocd
-        wait_healthy: true
-        additional_flags: "--insecure --grpc-web"
-        sync: true
-      stage: deploy
-    sync-app:
-      title: Waiting for the app to sync
-      type: argocd-sync
-      arguments:
-        app_name: ${{APP_ID}}
-        context: argocd
-        wait_healthy: true
-        additional_flags: "--insecure --grpc-web"
-        sync: true
-      stage: deploy
-    sync-previews-again:
       title: Waiting for the previews to sync
       type: argocd-sync
       arguments:

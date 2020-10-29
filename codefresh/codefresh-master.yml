@@ -1,0 +1,54 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-master
+  description: Triggered when pushing to the master branch
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github
+    name: master
+    repo: vfarcic/devops-toolkit
+    events:
+    - push.heads
+    branchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - test
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github
+        revision: "${{CF_BRANCH}}"
+      stage: test
+    sync_app:
+      title: Waiting for the app to sync
+      type: argocd-sync
+      arguments:
+        app_name: devops-toolkit
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+        sync: true
+      stage: test
+    sync_production:
+      title: Waiting for the previews to sync
+      type: argocd-sync
+      arguments:
+        app_name: production
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+        sync: true
+      stage: test
+    test:
+      title: Testing
+      image: alpine
+      commands:
+      - echo "Testing..."
+      stage: test
