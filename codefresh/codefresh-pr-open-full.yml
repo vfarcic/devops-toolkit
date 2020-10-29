@@ -56,6 +56,17 @@ spec:
         REPO: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
         GIT_PROVIDER_NAME: github
       stage: release
+    jira_issue:
+      title: Adding JIRA issues
+      type: jira-issue-extractor
+      arguments:
+        IMAGE: vfarcic/devops-toolkit:${{CF_SHORT_REVISION}}
+        JIRA_PROJECT_PREFIX: DOC
+        MESSAGE: "${{CF_COMMIT_MESSAGE}}"
+        JIRA_HOST: devops-catalog.atlassian.net
+        JIRA_EMAIL: viktor@farcic.com
+        JIRA_API_TOKEN: "heGcPbR3HddikfuLYw0MA8DC"
+      stage: release
     clone_env_repo:
       title: Cloning preview env. repo
       type: git-clone
@@ -81,4 +92,34 @@ spec:
         commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: "/codefresh/volume/argocd-previews"
+      stage: deploy
+    sync-previews:
+      title: Waiting for the previews to sync
+      type: argocd-sync
+      arguments:
+        app_name: previews
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+        sync: true
+      stage: deploy
+    sync-app:
+      title: Waiting for the app to sync
+      type: argocd-sync
+      arguments:
+        app_name: ${{APP_ID}}
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+        sync: true
+      stage: deploy
+    sync-previews-again:
+      title: Waiting for the previews to sync
+      type: argocd-sync
+      arguments:
+        app_name: previews
+        context: argocd
+        wait_healthy: true
+        additional_flags: "--insecure --grpc-web"
+        sync: true
       stage: deploy
