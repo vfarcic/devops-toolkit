@@ -1,0 +1,75 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-pr-merge
+  description: Triggered when a PR is opened or synced
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github-2
+    name: pr-merge
+    repo: devopsparadox/devops-toolkit
+    events:
+    - pullrequest.merged
+    pullRequestAllowForkEvents: true
+    pullRequestTargetBranchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - release
+    - deploy
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github-2
+        revision: "${{CF_BRANCH}}"
+      stage: release
+    build_app:
+      title: Setting env. vars
+      image: alpine
+      commands:
+      - cf_export REPO_PATH=$PWD
+      stage: release
+    clone_env_repo:
+      title: Cloning production env. repo
+      type: git-clone
+      arguments:
+        repo: devopsparadox/argocd-production
+        git: github-2
+      stage: release
+    define_production:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Defining production environment app
+      working_directory: "${{clone_env_repo}}"
+      commands:
+      - export IMAGE_TAG=${{CF_SHORT_REVISION}}
+      - git checkout -b $CF_REPO_NAME-pr-$CF_PULL_REQUEST_NUMBER
+      - cat $REPO_PATH/production.yaml | kyml tmpl -e IMAGE_TAG | tee helm/templates/$CF_REPO_NAME.yaml
+      - git add .
+      stage: release
+    push_env_repo:
+      title: Push production env. changes
+      type: git-commit
+      arguments:
+        repo: devopsparadox/argocd-production
+        git: github-2
+        commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        git_user_name: "${{CF_COMMIT_AUTHOR}}"
+        working_directory: /codefresh/volume/argocd-production
+      stage: deploy
+    github_pr:
+      title: Creating a pull request
+      type: github-pr
+      working_directory: "${{clone_env_repo}}"
+      arguments:
+        GITHUB_TOKEN: "${{GITHUB_TOKEN}}"
+        GITHUB_REPO_OWNER: "${{CF_REPO_OWNER}}"
+        GITHUB_REPO_NAME: argocd-production
+        HEAD: "${{CF_REPO_NAME}}-pr-${{CF_PULL_REQUEST_NUMBER}}"
+        TITLE: "PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        BASE: master
+      stage: deploy

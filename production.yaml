@@ -9,7 +9,7 @@ spec:
   project: production
   source:
     path: helm
-    repoURL: https://github.com/vfarcic/devops-toolkit.git
+    repoURL: https://github.com/devopsparadox/devops-toolkit.git
     targetRevision: HEAD
     helm:
       values: |
@@ -17,7 +17,7 @@ spec:
           repository: vfarcic/devops-toolkit
           tag: {{.IMAGE_TAG}}
         ingress:
-          host: devopstoolkitseries.com
+          host: devops-toolkit.50.17.138.75.xip.io
       version: v3
   destination:
     namespace: production

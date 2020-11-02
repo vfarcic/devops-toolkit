@@ -1,0 +1,105 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-pr-open
+  description: Triggered when a PR is opened or synced
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github-2
+    name: pr-open
+    repo: devopsparadox/devops-toolkit
+    events:
+    - pullrequest.opened
+    - pullrequest.reopened
+    - pullrequest.synchronize
+    pullRequestAllowForkEvents: true
+    pullRequestTargetBranchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - release
+    - deploy
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github-2
+        revision: "${{CF_BRANCH}}"
+      stage: release
+    build_app:
+      title: Building Hugo
+      image: klakegg/hugo:0.75.1-ext-alpine
+      commands:
+      - ./build.sh
+      - cf_export REPO_PATH=$PWD
+      - cf_export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+      stage: release
+    build_image:
+      title: Building container image
+      type: build
+      arguments:
+        image_name: vfarcic/devops-toolkit
+        tags:
+        - ${{CF_SHORT_REVISION}}
+        registry: docker-hub
+      stage: release
+    enrich_image:
+      title: Adding PR info
+      type: image-enricher
+      arguments:
+        IMAGE: vfarcic/devops-toolkit/devops-toolkit:${{CF_SHORT_REVISION}}
+        BRANCH: '${{CF_BRANCH}}'
+        REPO: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        GIT_PROVIDER_NAME: github-2
+      stage: release
+    jira_issue:
+      title: Adding JIRA issues
+      type: jira-issue-extractor
+      arguments:
+        IMAGE: vfarcic/devops-toolkit/devops-toolkit:${{CF_SHORT_REVISION}}
+        JIRA_PROJECT_PREFIX: DOC
+        MESSAGE: "${{CF_COMMIT_MESSAGE}}"
+        JIRA_HOST: devops-catalog.atlassian.net
+        JIRA_EMAIL: viktor@farcic.com
+        JIRA_API_TOKEN: "${{JIRA_API_TOKEN}}"
+      stage: release
+    clone_env_repo:
+      title: Cloning preview env. repo
+      type: git-clone
+      arguments:
+        repo: devopsparadox/argocd-previews
+        git: github-2
+      stage: deploy
+    define_preview:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Defining preview environment app
+      working_directory: "${{clone_env_repo}}" 
+      commands:
+      - export IMAGE_TAG=$CF_SHORT_REVISION
+      - cat $REPO_PATH/preview.yaml | kyml tmpl -e APP_ID -e IMAGE_TAG | tee helm/templates/$APP_ID.yaml
+      - git add .
+      stage: deploy
+    push_env_repo:
+      title: Pushing preview env. changes to the repo
+      type: git-commit
+      arguments:
+        repo: devopsparadox/argocd-previews
+        git: github-2
+        commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        git_user_name: "${{CF_COMMIT_AUTHOR}}"
+        working_directory: "/codefresh/volume/argocd-previews"
+      stage: deploy
+#    sync-previews:
+#      title: Waiting for the previews to sync
+#      type: argocd-sync
+#      arguments:
+#        app_name: previews
+#        context: argocd
+#        wait_healthy: true
+#        additional_flags: "--insecure --grpc-web"
+#        sync: true
+#      stage: deploy
