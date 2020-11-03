@@ -1,0 +1,93 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-staging
+  description: Triggered when a PR is merged
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github
+    name: head
+    repo: vfarcic/devops-toolkit
+    events:
+    - push.heads
+    branchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - release
+    - deploy
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github
+        revision: "${{CF_BRANCH}}"
+      stage: release
+    build_app:
+      title: Building Hugo
+      image: klakegg/hugo:0.75.1-ext-alpine
+      commands:
+      - ./build.sh
+      - cf_export REPO_PATH=$PWD
+      - cf_export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+      stage: release
+    build_image:
+      title: Building container image
+      type: build
+      arguments:
+        image_name: vfarcic/devops-toolkit
+        tags:
+        - ${{CF_SHORT_REVISION}}
+        registry: docker-hub
+      stage: release
+    github_release:
+      title: Creating a prerelease
+      type: github-release
+      arguments:
+        release-name: ${{CF_SHORT_REVISION}}
+        release_tag: ${{CF_SHORT_REVISION}}
+      stage: release
+    clone_env_repo:
+      title: Cloning staging env. repo
+      type: git-clone
+      arguments:
+        repo: vfarcic/argocd-staging
+        git: github
+      stage: release
+    define_staging:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Defining staging environment app
+      working_directory: "${{clone_env_repo}}"
+      commands:
+      - export IMAGE_TAG=$CF_SHORT_REVISION
+      - git checkout -b $CF_REPO_NAME-pr-$CF_PULL_REQUEST_NUMBER
+      - cat $REPO_PATH/staging.yaml | kyml tmpl -e IMAGE_TAG | tee helm/templates/$CF_REPO_NAME.yaml
+      - git add .
+      stage: release
+    push_env_repo:
+      title: Push staging env. changes
+      type: git-commit
+      arguments:
+        repo: vfarcic/argocd-staging
+        git: github
+        commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        git_user_name: "${{CF_COMMIT_AUTHOR}}"
+        working_directory: /codefresh/volume/argocd-staging
+      stage: deploy
+    github-pr:
+      title: Creating a pull request
+      type: github-pr
+      working_directory: "${{clone_env_repo}}"
+      arguments:
+        GITHUB_TOKEN: "${{GITHUB_TOKEN}}"
+        GITHUB_REPO_OWNER: "${{CF_REPO_OWNER}}"
+        GITHUB_REPO_NAME: argocd-staging
+        HEAD: "${{CF_REPO_NAME}}-pr-${{CF_PULL_REQUEST_NUMBER}}"
+        TITLE: "PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        BASE: master
+      stage: deploy
+
