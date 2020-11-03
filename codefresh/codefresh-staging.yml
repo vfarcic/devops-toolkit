@@ -48,8 +48,9 @@ spec:
       title: Creating a prerelease
       type: github-release
       arguments:
-        release-name: ${{CF_SHORT_REVISION}}
+        release_name: ${{CF_SHORT_REVISION}}
         release_tag: ${{CF_SHORT_REVISION}}
+        prerelease: true
       stage: release
     clone_env_repo:
       title: Cloning staging env. repo
@@ -77,17 +78,5 @@ spec:
         commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: /codefresh/volume/argocd-staging
-      stage: deploy
-    github-pr:
-      title: Creating a pull request
-      type: github-pr
-      working_directory: "${{clone_env_repo}}"
-      arguments:
-        GITHUB_TOKEN: "${{GITHUB_TOKEN}}"
-        GITHUB_REPO_OWNER: "${{CF_REPO_OWNER}}"
-        GITHUB_REPO_NAME: argocd-staging
-        HEAD: "${{CF_REPO_NAME}}-pr-${{CF_PULL_REQUEST_NUMBER}}"
-        TITLE: "PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
-        BASE: master
       stage: deploy
 
