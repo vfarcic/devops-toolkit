@@ -1,13 +1,11 @@
 # [The DevOps Toolkit Series](http://www.devopstoolkitseries.com)
 
 ```bash
-git submodule init
+make init
 
-git submodule update
+make dev
 
-hugo server
-
-hugo
+make build
 
 export PROJECT_ID=vfarcic
 
