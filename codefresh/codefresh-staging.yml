@@ -44,6 +44,15 @@ spec:
         - ${{CF_SHORT_REVISION}}
         registry: docker-hub
       stage: release
+    enrich_image:
+      title: Adding commit info
+      type: image-enricher
+      arguments:
+        IMAGE: vfarcic/devops-toolkit:${{CF_SHORT_REVISION}}
+        BRANCH: '${{CF_BRANCH}}'
+        REPO: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        GIT_PROVIDER_NAME: github
+      stage: release
     github_release:
       title: Creating a prerelease
       type: github-release
@@ -65,7 +74,6 @@ spec:
       working_directory: "${{clone_env_repo}}"
       commands:
       - export IMAGE_TAG=$CF_SHORT_REVISION
-      - git checkout -b $CF_REPO_NAME-pr-$CF_PULL_REQUEST_NUMBER
       - cat $REPO_PATH/staging.yaml | kyml tmpl -e IMAGE_TAG | tee helm/templates/$CF_REPO_NAME.yaml
       - git add .
       stage: release
@@ -75,8 +83,7 @@ spec:
       arguments:
         repo: vfarcic/argocd-staging
         git: github
-        commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        commit_message: "Adding release ${{CF_SHORT_REVISION}} to staging"
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: /codefresh/volume/argocd-staging
       stage: deploy
-
