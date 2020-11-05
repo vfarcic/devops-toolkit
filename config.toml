@@ -48,36 +48,6 @@ disqusShortname = ""
       name = "Home"
       url = "#"
 
-#    [[params.navigation.links]]
-#      name = "Books"
-#      url = "posts"
-#
-#    [[params.navigation.links]]
-#      name = "Generic Blog"
-#      url = "blogs/ipsum"
-#
-#    [[params.navigation.links]]
-#      name = "Elements"
-#      url = "elements.html"
-#
-#    # Add custom links here by uncommenting code below. To remove links just delete
-#    # the [[params.navigation.links]] map associated with that link. Copy and paste
-#    # code below if you need more links. Buttons work in the same way.
-#    # [[params.navigation.links]]
-#    #    name = "NameOfLink"
-#    #    url = "UrlOfLink"
-#
-#    # Button Style 1
-#    [[params.navigation.button1]]
-#      name = "Get Started"
-#      url = "blogs"
-#
-#    # Button Style 2
-#    [[params.navigation.button2]]
-#      name = "Log In"
-#      url = "#"
-
-
   # Banner section
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
@@ -158,55 +128,6 @@ disqusShortname = ""
     # at the root of this Hugo site.
     # For more informtion take a look at the README.
     # To add more blogs just copy and paste the code.
-
-  # Section Type Two
-#  [params.two]
-#    enable = true
-#    title = "Massa libero"
-#    subtitle = """Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-#    Mauris aliquet magna magna sed nunc rhoncus pharetra. 
-#    Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
-#    Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
-#    Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus."""
-#    buttonText = "Get Started"
-#    url = "blogs"
-
-
-#  # Contact section
-#  [params.contact]
-#    enable = true
-#    buttonSend = "Send message"
-#    buttonClear = "Clear"
-#
-#    # Since this template is static, the contact form uses www.formspree.io as a
-#    # proxy. The form makes a POST request to their servers to send the actual
-#    # email. Visitors can send up to a 1000 emails each month for free.
-#    #
-#    # What you need to do for the setup?
-#    #
-#    # - set your email address under 'email' below and uncomment
-#    # - upload the generated site to your server
-#    # - send a dummy email yourself to confirm your account
-#    # - click the confirm link in the email from www.formspree.io
-#    # - you're done. Happy mailing!
-#    # formEmail = "example@domain.com"
-#
-#    # Contact Section
-#    # You can add multiple emails, phone numbers, or addresses
-#    # by copying the corresponding map with frontmatter code.
-#    [[params.contact.email]]
-#    title = "Email"
-#    email = "example@domain.com"
-#
-#    [[params.contact.phone]]
-#    title = "Phone"
-#    phone = "(000) 000-0000 x1234"
-#
-#    [[params.contact.address]]
-#    title = "Address"
-#    street = "Street"
-#    city = "City, ST 00000"
-#    country = "Country"
 
   # Footer section
   [params.footer]
