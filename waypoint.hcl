@@ -25,7 +25,6 @@ app "devops-toolkit" {
     use "kubernetes" {
       probe_path   = "/"
       service_port = 80
-      namespace     = "dev"
     }
   }
 
@@ -33,7 +32,6 @@ app "devops-toolkit" {
     use "kubernetes" {
       node_port     = 30000
       port          = 80
-      namespace     = "dev"
     }
   }
 }
