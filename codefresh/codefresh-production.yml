@@ -1,0 +1,36 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-production
+  description: Triggered when a release is final
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github
+    name: head
+    repo: vfarcic/devops-toolkit
+    events:
+    - release
+    branchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - release
+    - deploy
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github
+        revision: "${{CF_BRANCH}}"
+      stage: release
+    build_app:
+      title: test
+      image: alpine
+      commands:
+      - env
+      stage: release
+
