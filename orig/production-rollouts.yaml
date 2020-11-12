@@ -21,8 +21,7 @@ spec:
           host: devopstoolkitseries.com
         istio:
           enabled: true
-        hpa:
-          enabled: true
+        hpa: true
         rollout:
           enabled: true
       version: v3
