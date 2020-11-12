@@ -44,15 +44,6 @@ spec:
         - ${{CF_SHORT_REVISION}}
         registry: docker-hub
       stage: release
-    enrich_image:
-      title: Adding commit info
-      type: image-enricher
-      arguments:
-        IMAGE: vfarcic/devops-toolkit:${{CF_SHORT_REVISION}}
-        BRANCH: '${{CF_BRANCH}}'
-        REPO: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
-        GIT_PROVIDER_NAME: github
-      stage: release
     github_release:
       title: Creating a prerelease
       type: github-release
