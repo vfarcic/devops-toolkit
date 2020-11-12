@@ -58,7 +58,7 @@ spec:
       arguments:
         repo: vfarcic/argocd-production
         git: github
-      stage: release
+      stage: deploy
     define_production:
       image: vfarcic/argocd-pipeline:1.0.ee76b7a
       title: Defining production environment app
@@ -67,7 +67,7 @@ spec:
       - export IMAGE_TAG=$CF_SHORT_REVISION
       - cat $REPO_PATH/production.yaml | kyml tmpl -e IMAGE_TAG | tee helm/templates/$CF_REPO_NAME.yaml
       - git add .
-      stage: release
+      stage: deploy
     push_env_repo:
       title: Push production env. changes
       type: git-commit
