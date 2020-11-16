@@ -11,7 +11,9 @@ spec:
     name: pr-merge
     repo: vfarcic/devops-toolkit
     events:
+    - push.heads
     - pullrequest.merged
+    branchRegex: /^((master)$).*/gi
     pullRequestAllowForkEvents: true
     pullRequestTargetBranchRegex: /master/gi
     verified: true
