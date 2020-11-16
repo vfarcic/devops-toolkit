@@ -3,3 +3,5 @@
 /public
 /devops-toolkit
 /env
+.waypoint
+/creds
