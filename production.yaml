@@ -17,7 +17,13 @@ spec:
           repository: vfarcic/devops-toolkit
           tag: {{.IMAGE_TAG}}
         ingress:
-          host: devopstoolkitseries.com
+          enabled: false
+          host: devops-toolkit.127.0.0.1.xip.io
+        istio:
+          enabled: true
+        hpa: true
+        rollout:
+          enabled: true
       version: v3
   destination:
     namespace: production
