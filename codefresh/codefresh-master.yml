@@ -12,6 +12,7 @@ spec:
     repo: vfarcic/devops-toolkit
     events:
     - push.heads
+    pullRequestAllowForkEvents: true
     branchRegex: /^((master)$).*/gi
     verified: true
   contexts: []
