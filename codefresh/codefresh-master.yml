@@ -56,7 +56,7 @@ spec:
       title: Defining production environment app
       working_directory: "${{clone_env_repo}}"
       commands:
-      - export IMAGE_TAG=$CF_SHORT_REVISION
+      - export IMAGE_TAG="$CF_SHORT_REVISION"
       - git checkout -b $CF_REPO_NAME-$CF_SHORT_REVISION
       - cat $REPO_PATH/production.yaml | kyml tmpl -e IMAGE_TAG | tee helm/templates/$CF_REPO_NAME.yaml
       - git add .
