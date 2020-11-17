@@ -35,6 +35,5 @@ spec:
   ignoreDifferences:
   - group: networking.istio.io/v1alpha3
     kind: VirtualService
-    namespace: production
     jsonPointers:
     - /spec/http/*/route/*/weight
