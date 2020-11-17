@@ -26,8 +26,4 @@ spec:
     automated:
       selfHeal: true
       prune: true
-  ignoreDifferences:
-  - group: networking.istio.io/v1alpha3
-    kind: VirtualService
-    jsonPointers:
-    - /spec/http/*/route/*/weight
+
