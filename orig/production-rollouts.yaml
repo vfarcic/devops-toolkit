@@ -36,4 +36,4 @@ spec:
   - group: networking.istio.io/v1alpha3
     kind: VirtualService
     jsonPointers:
-    - /spec/http/*/route/*/weight
+    - /spec/http
