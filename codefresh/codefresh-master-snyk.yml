@@ -44,13 +44,10 @@ spec:
         - ${{CF_SHORT_REVISION}}
         registry: docker-hub
       stage: release
-    # TODO: Add env. var. `SNYK_TOKEN`
-    # TODO: New
     scan_image:
       title: Scanning container image
       image: snyk/snyk-cli:docker
       commands:
-      # - docker scan vfarcic/devops-toolkit:$CF_SHORT_REVISION --file Dockerfile --accept-license
       - snyk container test vfarcic/devops-toolkit:$CF_SHORT_REVISION --file=Dockerfile --severity-threshold=medium
       stage: release
     clone_env_repo:
