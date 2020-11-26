@@ -1,0 +1,94 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-master
+  description: Triggered when pushing changes to the master branch
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github
+    name: master
+    repo: vfarcic/devops-toolkit
+    events:
+    - push.heads
+    pullRequestAllowForkEvents: true
+    branchRegex: /^((master)$).*/gi
+    verified: true
+  contexts: []
+  stages:
+    - release
+    - deploy
+  steps:
+    main_clone:
+      title: Cloning repository
+      type: git-clone
+      arguments:
+        repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+        git: github
+        revision: "${{CF_BRANCH}}"
+      stage: release
+    build_app:
+      title: Building Hugo
+      image: klakegg/hugo:0.75.1-ext-alpine
+      commands:
+      - ./build.sh
+      - cf_export REPO_PATH=$PWD
+      stage: release
+    build_image:
+      title: Building container image
+      type: build
+      arguments:
+        image_name: vfarcic/devops-toolkit
+        tags:
+        - ${{CF_SHORT_REVISION}}
+        registry: docker-hub
+      stage: release
+    # TODO: Add env. var. `SNYK_TOKEN`
+    # TODO: New
+    scan_image:
+      title: Scanning container image
+      image: snyk/snyk-cli:docker
+      commands:
+      # - docker scan vfarcic/devops-toolkit:$CF_SHORT_REVISION --file Dockerfile --accept-license
+      - snyk container test vfarcic/devops-toolkit:$CF_SHORT_REVISION --file=Dockerfile --severity-threshold=medium
+      stage: release
+    clone_env_repo:
+      title: Cloning production env. repo
+      type: git-clone
+      arguments:
+        repo: vfarcic/argocd-production
+        git: github
+      stage: deploy
+    define_production:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Defining production environment app
+      working_directory: "${{clone_env_repo}}"
+      commands:
+      - export IMAGE_TAG="$CF_SHORT_REVISION"
+      - git checkout -b $CF_REPO_NAME-$CF_SHORT_REVISION
+      - cat $REPO_PATH/production.yaml | kyml tmpl -e IMAGE_TAG | tee helm/templates/$CF_REPO_NAME.yaml
+      - git add .
+      stage: deploy
+    push_env_repo:
+      title: Pushing production env. changes
+      type: git-commit
+      arguments:
+        repo: vfarcic/argocd-production
+        git: github
+        commit_message: "Adding comit ${{CF_SHORT_REVISION}} from ${{CF_REPO_NAME}}"
+        git_user_name: "${{CF_COMMIT_AUTHOR}}"
+        working_directory: /codefresh/volume/argocd-production
+      stage: deploy
+    github_pr:
+      title: Creating a pull request
+      type: github-pr
+      working_directory: "${{clone_env_repo}}"
+      arguments:
+        GITHUB_TOKEN: "${{GITHUB_TOKEN}}"
+        GITHUB_REPO_OWNER: "${{CF_REPO_OWNER}}"
+        GITHUB_REPO_NAME: argocd-production
+        HEAD: "${{CF_REPO_NAME}}-${{CF_SHORT_REVISION}}"
+        TITLE: "${{CF_SHORT_REVISION}} from ${{CF_REPO_NAME}}"
+        BASE: master
+      stage: deploy
