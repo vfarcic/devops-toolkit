@@ -67,7 +67,7 @@ spec:
       arguments:
         repo: vfarcic/argocd-production
         git: github
-        commit_message: "Adding comit ${{CF_SHORT_REVISION}} from ${{CF_REPO_NAME}}"
+        commit_message: "Adding commit ${{CF_SHORT_REVISION}} from ${{CF_REPO_NAME}}"
         git_user_name: "${{CF_COMMIT_AUTHOR}}"
         working_directory: /codefresh/volume/argocd-production
       stage: deploy
