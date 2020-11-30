@@ -44,4 +44,3 @@ gcloud run deploy \
     --project $PROJECT_ID
 ```
 
-
