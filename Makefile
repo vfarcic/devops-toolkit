@@ -11,6 +11,3 @@ build:
 dev:
 	hugo server
 
-codefresh:
-	codefresh auth create-context devops-catalog --api-key $CF_TOKEN
-
