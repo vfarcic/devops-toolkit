@@ -1,0 +1,14 @@
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: nginx
+    versions:
+    - 1.19.7.pre.alpine
+    - 1.19.8.pre.alpine
+    - 1.19.9.pre.alpine
