@@ -6,25 +6,25 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: previews
-  source:
-    path: helm
-    repoURL: https://github.com/vfarcic/devops-toolkit.git
-    targetRevision: HEAD
-    helm:
-      values: |
-        image:
-          repository: vfarcic/devops-toolkit
-          tag: {{.IMAGE_TAG}}
-        ingress:
-          host: {{.APP_ID}}.devopstoolkitseries.com
-      version: v3
   destination:
     namespace: "{{.APP_ID}}"
     server: https://kubernetes.default.svc
+  project: previews
+  source:
+    path: helm
+    repoURL: https://github.com/genebean/devops-toolkit.git
+    targetRevision: "{{.BRANCH_NAME}}"
+    helm:
+      values: |
+        image:
+          repository: {{.HELM_REPO_BASE}}/{{.HELM_REPO_IMAGE_PATH}}
+          tag: {{.IMAGE_TAG}}
+        ingress:
+          host: {{.APP_ID}}.{{.INGRESS_DOMAIN}}
+      version: v3
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
