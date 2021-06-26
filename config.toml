@@ -32,7 +32,7 @@ disqusShortname = ""
   # Navigation Section
   # TODO: Remove params
   [params.navigation]
-    title = "The DevOps Toolkit Series"
+    title = "The DevOps Toolkit"
     subtitle = "By Viktor Farcic"
     menu = "Menu"
     # Optional logo as brand stored in img/
@@ -55,6 +55,12 @@ disqusShortname = ""
   [params.tiles]
     enable = true
     # Display your showcases here.
+
+    [[params.tiles.showcase]]
+      title = "The YouTube Channel"
+      subtitle = "DevOps Toolkit"
+      image = "youtube.png"
+      url = "posts/youtube"
 
     [[params.tiles.showcase]]
       title = "The DevOps Toolkit"

@@ -4,14 +4,17 @@ metadata:
   name: devops-toolkit
   labels:
     app: devops-toolkit
+    component: web
 spec:
   selector:
     matchLabels:
       app: devops-toolkit
+      component: web
   template:
     metadata:
       labels:
         app: devops-toolkit
+        component: web
     spec:
       containers:
       - name: devops-toolkit
@@ -28,9 +31,9 @@ spec:
             port: 80
         resources:
           limits:
-            cpu: 100m
-            memory: 256Mi
+            cpu: 1000m
+            memory: 1Gi
           requests:
-            cpu: 80m
-            memory: 128Mi
+            cpu: 500m
+            memory: 512Mi
 
