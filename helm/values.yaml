@@ -1,10 +1,10 @@
 image:
-  repository: vfarcic/devops-toolkit-series
+  repository: 925081097270.dkr.ecr.us-east-1.amazonaws.com/devops-toolkit-series
   tag: latest
   pullPolicy: IfNotPresent
 ingress:
   enabled: true
-  host: devopstoolkitseries.com
+  host: devops-toolkit-series.bgp.works
 resources:
   limits:
     cpu: 100m

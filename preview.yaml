@@ -9,15 +9,15 @@ spec:
   project: previews
   source:
     path: helm
-    repoURL: https://github.com/vfarcic/devops-toolkit.git
+    repoURL: https://github.com/bgpworks/devops-toolkit.git
     targetRevision: HEAD
     helm:
       values: |
         image:
-          repository: vfarcic/devops-toolkit
+          repository: 925081097270.dkr.ecr.us-east-1.amazonaws.com/devops-toolkit
           tag: {{.IMAGE_TAG}}
         ingress:
-          host: {{.APP_ID}}.devopstoolkitseries.com
+          host: {{.APP_ID}}.bgp.works
       version: v3
   destination:
     namespace: "{{.APP_ID}}"
