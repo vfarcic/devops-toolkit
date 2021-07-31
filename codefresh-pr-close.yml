@@ -1,0 +1,47 @@
+version: "1.0"
+kind: pipeline
+metadata:
+  name: devops-toolkit-pr-close
+  description: Triggered when a PR is closed
+spec:
+  triggers:
+  - type: git
+    provider: github
+    context: github
+    name: pr-close
+    repo: bgpworks/devops-toolkit
+    events:
+    - pullrequest.closed
+    pullRequestAllowForkEvents: true
+    pullRequestTargetBranchRegex: /master/gi
+    verified: true
+  contexts: []
+  stages:
+    - deploy
+  steps:
+    clone_env_repo:
+      title: Cloning preview env. repo
+      type: git-clone
+      arguments:
+        git: github
+        repo: bgpworks/argocd-previews
+      stage: deploy
+    remove_preview:
+      image: vfarcic/argocd-pipeline:1.0.ee76b7a
+      title: Removing preview environment app
+      working_directory: "${{clone_env_repo}}" 
+      commands:
+      - export APP_ID=pr-$CF_REPO_NAME-$CF_PULL_REQUEST_NUMBER
+      - rm -f helm/templates/$APP_ID.yaml
+      - git add .
+      stage: deploy
+    push_env_repo:
+      title: Push preview env. changes to the repo
+      type: git-commit
+      arguments:
+        git: github
+        repo: bgpworks/argocd-previews
+        commit_message: "Adding PR ${{CF_PULL_REQUEST_NUMBER}} from ${{CF_REPO_NAME}}"
+        git_user_name: "${{CF_COMMIT_AUTHOR}}"
+        working_directory: "/codefresh/volume/argocd-previews"
+      stage: deploy
