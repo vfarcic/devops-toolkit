@@ -23,7 +23,9 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
+      - pathType: Prefix
+        path: /
+        backend:
           service:
             name: {{ template "fullname" . }}
             port:

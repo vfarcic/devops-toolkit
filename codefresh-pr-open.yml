@@ -42,7 +42,7 @@ spec:
       title: Building container image
       type: build
       arguments:
-        image_name: 925081097270.dkr.ecr.us-east-1.amazonaws.com/devops-toolkit
+        image_name: devops-toolkit
         tags:
         - ${{CF_SHORT_REVISION}}
         registry: ecr
