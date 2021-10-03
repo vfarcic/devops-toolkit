@@ -81,46 +81,10 @@ disqusShortname = ""
       url = "posts/canary"
 
     [[params.tiles.showcase]]
-      title = "The DevOps 2.6 Toolkit"
-      subtitle = "Jenkins X"
-      image = "devops26-small.jpg"
-      url = "posts/devops-26"
-
-    [[params.tiles.showcase]]
-      title = "The DevOps 2.5 Toolkit"
-      subtitle = "Monitoring, Logging, and Auto-Scaling Kubernetes"
-      image = "devops25-small.jpg"
-      url = "posts/devops-25"
-
-    [[params.tiles.showcase]]
-      title = "The DevOps 2.4 Toolkit"
-      subtitle = "Continuous Deployment To Kubernetes"
-      image = "devops24-small.png"
-      url = "posts/devops-24"
-
-    [[params.tiles.showcase]]
       title = "The DevOps 2.3 Toolkit"
       subtitle = "Kubernetes"
       image = "devops23-small.jpg"
       url = "posts/devops-23"
-
-    [[params.tiles.showcase]]
-      title = "The DevOps 2.2 Toolkit"
-      subtitle = "Building Self-Adaptive And Self-Healing Docker Clusters"
-      image = "devops22-small.jpg"
-      url = "posts/devops-22"
-
-    [[params.tiles.showcase]]
-      title = "The DevOps 2.1 Toolkit"
-      subtitle = "Building, testing, deploying, and monitoring services inside Docker Swarm clusters"
-      image = "devops21-small.png"
-      url = "posts/devops-21"
-
-    [[params.tiles.showcase]]
-      title = "The DevOps 2.0 Toolkit"
-      subtitle = "Automating the Continuous Deployment Pipeline with Containerized Microservices"
-      image = "devops20-small.jpg"
-      url = "posts/devops-20"
 
   [params.blog]
     # All blogs defined in their own files. You can find example blogs
