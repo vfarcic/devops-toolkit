@@ -8,10 +8,6 @@ metadata:
     app: devops-toolkit
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: nginx
 spec:
   rules:
   - http:
