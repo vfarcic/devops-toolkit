@@ -7,6 +7,8 @@ metadata:
   labels:
     app: devops-toolkit
     component: web
+  annotations:
+    app.komodor.com/deploy.link.argocd: "http://argo-cd.34.138.223.93.nip.io/applications/devops-toolkit"
 spec:
   selector:
     matchLabels:
@@ -20,7 +22,7 @@ spec:
     spec:
       containers:
       - name: devops-toolkit
-        image: vfarcic/devops-toolkit-series:latest
+        image: vfarcic/devops-toolkit-series
         ports:
         - containerPort: 80
         livenessProbe:
