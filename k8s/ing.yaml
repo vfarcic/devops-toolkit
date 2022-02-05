@@ -1,18 +1,22 @@
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: devops-toolkit
   labels:
     app: devops-toolkit
   annotations:
-    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
   - http:
       paths:
-      - backend:
-          serviceName: devops-toolkit
-          servicePort: 80
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+           name: devops-toolkit
+           port:
+             number: 80
     host: devopstoolkitseries.com
