@@ -1,7 +1,7 @@
 # Site settings
 baseURL = "/"
 languageCode = "en-us"
-title = "The DevOps Toolkit Series"
+title = "The DevOps Toolkit Series likes Livecycle"
 theme = "forty"
 
 # Enter your tracking code to enable Google Analytics
@@ -46,7 +46,7 @@ disqusShortname = ""
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "The DevOps Toolkit Series"
+    title = "The DevOps Toolkit Series likes Livecycle"
     subtitle = "Where DevOps becomes practice"
     buttonText = "Get Started"
 
