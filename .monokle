@@ -1,0 +1,26 @@
+{
+    "scanExcludes": [
+        "node_modules",
+        "**/.git",
+        "**/pkg/mod/**",
+        "**/.kube",
+        "**/*.swp",
+        ".monokle"
+    ],
+    "fileIncludes": [
+        "*.yaml",
+        "*.yml"
+    ],
+    "folderReadsMaxDepth": 10,
+    "k8sVersion": "1.23.3",
+    "settings": {
+        "helmPreviewMode": "template",
+        "kustomizeCommand": "kubectl",
+        "createDefaultObjects": false,
+        "setDefaultPrimitiveValues": true
+    },
+    "kubeConfig": {
+        "path": "/Users/vfarcic/.kube/config",
+        "currentContext": "rancher-desktop"
+    }
+}

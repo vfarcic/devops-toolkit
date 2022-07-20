@@ -19,22 +19,22 @@ spec:
         component: web
     spec:
       containers:
-      - name: devops-toolkit
-        image: vfarcic/devops-toolkit-series:2.7.0
-        ports:
-        - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-        resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 250m
-            memory: 256Mi
+        - ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          name: devops-toolkit
+          image: vfarcic/devops-toolkit-series:2.7.0
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
