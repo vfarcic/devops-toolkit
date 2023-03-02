@@ -11,7 +11,7 @@ make build
 
 export PROJECT_ID=vfarcic
 
-export VERSION=5.0.5
+export VERSION=5.1.0
 
 export IMAGE_DH=vfarcic/devops-toolkit-series
 

@@ -62,18 +62,6 @@ disqusShortname = ""
       image = "youtube.png"
       url = "posts/youtube"
 
-    [[params.tiles.showcase]]
-      title = "The DevOps Toolkit"
-      subtitle = "Catalog, Patterns, And Blueprints"
-      image = "catalog-small.jpg"
-      url = "posts/catalog"
-
-    [[params.tiles.showcase]]
-      title = "The DevOps 2.3 Toolkit"
-      subtitle = "Kubernetes"
-      image = "devops23-small.jpg"
-      url = "posts/devops-23"
-
   [params.blog]
     # All blogs defined in their own files. You can find example blogs
     # at 'exampleSite/content/blogs'. Copy the 'blogs' folder into the 'content' directory
