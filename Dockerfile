@@ -1,4 +1,4 @@
-FROM klakegg/hugo:0.93.2-alpine AS build
+FROM klakegg/hugo:0.111.3-alpine AS build
 RUN apk add -U git
 COPY . /src
 RUN make init
