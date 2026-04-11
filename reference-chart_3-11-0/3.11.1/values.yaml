@@ -329,7 +329,7 @@ rawYaml: []
 #    type: ClusterIP
 
 envoyproxy:
- image: envoyproxy/envoy:v1.37.1
+ image: envoyproxy/envoy:v1.37.2
  configMapName: ""
  resources:
    limits:
