@@ -4,7 +4,7 @@ COPY . /src
 RUN make init
 RUN make build
 
-FROM nginx:1.31.2-alpine
+FROM nginx:1.31.3-alpine
 RUN mv /usr/share/nginx/html/index.html /usr/share/nginx/html/old-index.html
 COPY --from=build /src/public /usr/share/nginx/html
 EXPOSE 80
